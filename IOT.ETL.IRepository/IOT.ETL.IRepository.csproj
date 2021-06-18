@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IOT.ETL.Common\IOT.ETL.Common.csproj" />
+    <ProjectReference Include="..\IOT.ETL.Model\IOT.ETL.Model.csproj" />
+  </ItemGroup>
+
 </Project>
