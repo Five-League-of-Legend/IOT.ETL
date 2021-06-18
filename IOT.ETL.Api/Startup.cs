@@ -11,6 +11,14 @@ using IOT.ETL.Repository.Login;
 using IOT.ETL.Repository.sys_role;
 using IOT.ETL.Repository.sys_user;
 using System;
+using IOT.ETL.IRepository.etl_data_engine;
+using IOT.ETL.IRepository.Login;
+using IOT.ETL.IRepository.sys_role;
+using IOT.ETL.IRepository.sys_user;
+using IOT.ETL.IRepository.BI_DataAnalysis;
+using IOT.ETL.Repository.BI_DataAnalysis;
+using IOT.ETL.IRepository.TaskIRepository;
+using IOT.ETL.Repository.TaskRepository;
 
 namespace IOT.ETL.Api
 {
@@ -48,6 +56,8 @@ namespace IOT.ETL.Api
             services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddScoped<Isys_roleRepository, sys_roleRepository>();
             services.AddScoped<Isys_userRepository, sys_userRepository>();
+
+            services.AddSingleton<IBI_DataAnalysisRepositor, BI_DataAnalysisRepository>();
 
             //¿çÓò
             services.AddCors(options =>
