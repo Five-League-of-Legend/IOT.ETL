@@ -12,4 +12,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IOT.ETL.Common\IOT.ETL.Common.csproj" />
+    <ProjectReference Include="..\IOT.ETL.IRepository\IOT.ETL.IRepository.csproj" />
+    <ProjectReference Include="..\IOT.ETL.Repository\IOT.ETL.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

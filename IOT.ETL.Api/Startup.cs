@@ -1,3 +1,5 @@
+using IOT.ETL.IRepository.TaskIRepository;
+using IOT.ETL.Repository.TaskRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +34,10 @@ namespace IOT.ETL.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IOT.ETL.Api", Version = "v1" });
             });
 
+            #region ×¢Èë
+            services.AddSingleton<TaskIRepository, TaskRepository>();
 
+            #endregion
 
             //¿çÓò
             services.AddCors(options =>

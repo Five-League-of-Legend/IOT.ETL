@@ -15,4 +15,8 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IOT.ETL.Model\IOT.ETL.Model.csproj" />
+  </ItemGroup>
+
 </Project>
