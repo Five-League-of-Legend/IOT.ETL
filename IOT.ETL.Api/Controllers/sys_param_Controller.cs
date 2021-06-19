@@ -29,7 +29,7 @@ namespace IOT.ETL.Api.Controllers
         [Route("/api/sys_param_show")]
         public IActionResult sys_param_show()
         {
-            logger.Debug($"对数据库中的规则引擎表进行查看");
+            logger.Debug($"对数据库中的参数字典表进行查看");
             List<Model.sys_param> list = _param.GetList_sys_param();
             return Ok(list);
         }
@@ -45,7 +45,7 @@ namespace IOT.ETL.Api.Controllers
             int i = _param.Insert_sys_param(model);
             if (i > 0)
             {
-                logger.Debug($"对数据库中的规则引擎表进行添加数据");
+                logger.Debug($"对数据库中的参数字典表进行添加数据");
             }
             return i;
         }
@@ -61,7 +61,7 @@ namespace IOT.ETL.Api.Controllers
             int i = _param.Delete_sys_param(ids);
             if (i > 0)
             {
-                logger.Debug($"对数据库中的规则引擎表进行删除数据");
+                logger.Debug($"对数据库中的参数字典表进行删除数据");
             }
             return i;
         }
@@ -72,7 +72,7 @@ namespace IOT.ETL.Api.Controllers
             int i = _param.Uptdate_sys_param(model);
             if (i > 0)
             {
-                logger.Debug($"对数据库中的规则引擎表进行修改数据");
+                logger.Debug($"对数据库中的参数字典表进行修改数据");
             }
             return i;
         }
