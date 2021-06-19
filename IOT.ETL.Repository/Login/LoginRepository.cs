@@ -85,7 +85,7 @@ namespace IOT.ETL.Repository.Login
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="email">邮箱账号</param>
-        public void SendVerificationCode(object sender, EventArgs e, string email)
+        public void SendVerificationCode(string email)
         {
             //随机生成验证码
             Random rm = new Random();
@@ -117,7 +117,7 @@ namespace IOT.ETL.Repository.Login
             mailClient.EnableSsl = true;
             mailClient.UseDefaultCredentials = false;
             //Credentials登陆SMTP服务器的身份验证.
-            mailClient.Credentials = new NetworkCredential("2200176291@qq.com", "QWC12345.");//邮箱
+            mailClient.Credentials = new NetworkCredential("2200176291@qq.com", "QWC12345..");//邮箱
             MailMessage message = new MailMessage(new MailAddress("2200176291@qq.com"), new MailAddress(email));//发件人,收件人
             message.IsBodyHtml = true;
             // message.Bcc.Add(new MailAddress("tst@qq.com")); //可以添加多个收件人
