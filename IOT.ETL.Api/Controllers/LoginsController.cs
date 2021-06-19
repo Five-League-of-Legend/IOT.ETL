@@ -43,7 +43,6 @@ namespace IOT.ETL.Api.Controllers
             int i = _loginRepository.Register(user);
             return i;
 
-            string sql = $"select {user.} from {user.} {user.} {user.ziduan} join {s} on {user.id}";
         }
         
     }
