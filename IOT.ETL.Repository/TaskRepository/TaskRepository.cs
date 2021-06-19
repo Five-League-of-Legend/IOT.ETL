@@ -14,8 +14,8 @@ namespace IOT.ETL.Repository.TaskRepository
     {
         //Redis缓存
         string str = "strTask";
-        List<IOT.ETL.Model.etl_task_info> joinls = new List<etl_task_info>();
-        RedisHelper<IOT.ETL.Model.etl_task_info> rh = new RedisHelper<etl_task_info>();
+        List<IOT.ETL.Model.etl_task_info> joinls = new List<Model.etl_task_info>();
+        RedisHelper<IOT.ETL.Model.etl_task_info> rh = new RedisHelper<Model.etl_task_info>();
         public TaskRepository()
         {
             joinls = rh.GetList(str);
@@ -52,7 +52,7 @@ namespace IOT.ETL.Repository.TaskRepository
             if (joinls == null || joinls.Count == 0)
             {
                 string sql = $"select * from etl_task_info";
-                joinls = DapperHelper.GetList<etl_task_info>(sql);
+                joinls = DapperHelper.GetList<Model.etl_task_info>(sql);
                 rh.SetList(joinls, str);
             }
 
