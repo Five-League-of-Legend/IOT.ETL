@@ -55,7 +55,7 @@ namespace IOT.ETL.Repository.BI_DataAnalysis
             if (listd == null || listd.Count == 0)
             {
                 //拿到所有数据
-                listd = DapperHelper.GetList_BI<GetDataBases>(sql,name);
+                listd = DapperHelper.GetList_BI<GetDataBases>(sql,name,flag);
                 //放入缓存
                 dh.SetList(listd, dataredisKey);
             }
