@@ -23,12 +23,7 @@ using IOT.ETL.IRepository.BI_DataAnalysis;
 using IOT.ETL.Repository.BI_DataAnalysis;
 using IOT.ETL.IRepository.TaskIRepository;
 using IOT.ETL.Repository.TaskRepository;
-using IOT.ETL.IRepository.sys_user;
-using IOT.ETL.IRepository.etl_data_engine;
-using IOT.ETL.IRepository.Login;
-using IOT.ETL.IRepository.sys_role;
-using IOT.ETL.IRepository.TaskIRepository;
-using IOT.ETL.Repository.TaskRepository;
+
 
 namespace IOT.ETL.Api
 {

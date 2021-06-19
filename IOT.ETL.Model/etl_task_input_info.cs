@@ -25,5 +25,7 @@ namespace IOT.ETL.Model
         public DateTime create_time { get; set; }       //创建时间
         public string update_by { get; set; }           //更新人
         public DateTime update_time { get; set; }       //更新时间
+
+
     }
 }
