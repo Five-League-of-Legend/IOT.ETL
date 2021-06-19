@@ -11,6 +11,12 @@ using IOT.ETL.Repository.Login;
 using IOT.ETL.Repository.sys_role;
 using IOT.ETL.Repository.sys_user;
 using System;
+using IOT.ETL.IRepository.sys_user;
+using IOT.ETL.IRepository.etl_data_engine;
+using IOT.ETL.IRepository.Login;
+using IOT.ETL.IRepository.sys_role;
+using IOT.ETL.IRepository.TaskIRepository;
+using IOT.ETL.Repository.TaskRepository;
 
 namespace IOT.ETL.Api
 {
