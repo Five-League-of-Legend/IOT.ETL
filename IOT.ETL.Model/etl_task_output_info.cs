@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOT.ETL.Model
 {
-    class etl_task_output_info
+    public class etl_task_output_info
     {
         public string id { get; set; }
         public string node_id { get; set; }             //节点ID

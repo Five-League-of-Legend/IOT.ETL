@@ -44,7 +44,7 @@ namespace IOT.ETL.Repository.BI_DataAnalysis
             else if(flag==2)
             {
                 sql = " SELECT NAME SCHEMA_NAME FROM MASTER.DBO.SYSDATABASES ORDER BY NAME ";
-                name = "Day09";
+                name = "master";
                 dataredisKey = "dataredisKey_SqlServe";
 
             }

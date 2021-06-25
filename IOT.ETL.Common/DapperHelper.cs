@@ -157,5 +157,39 @@ namespace IOT.ETL.Common
                 throw;
             }
         }
+
+        /// <summary>
+        /// 任务管理检测
+        ///</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static int Execute_plan(string sql, string name)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(name))
+                {
+                    string conn = ConfigurationManager.ConnNameSql + name;
+                    using (IDbConnection db = new SqlConnection(conn))
+                    {
+                        return db.Execute(sql);
+                    }
+                }
+                else
+                {
+                    using (IDbConnection db = new MySqlConnection(ConfigurationManager.Conn))
+                    {
+                        return db.Execute(sql);
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

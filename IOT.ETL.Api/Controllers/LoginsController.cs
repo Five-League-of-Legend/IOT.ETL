@@ -61,6 +61,7 @@ namespace IOT.ETL.Api.Controllers
                 logger.Debug($"用户名为:{user.name}的用户在{DateTime.Now}注册成功");
             }
             return i;
+
         }
         /// <summary>
         /// 发送验证码
