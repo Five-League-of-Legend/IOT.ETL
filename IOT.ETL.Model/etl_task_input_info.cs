@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOT.ETL.Model
 {
-    class etl_task_input_info
+    public class etl_task_input_info
     {
         // 任务数据输入表
         public string id { get; set; }

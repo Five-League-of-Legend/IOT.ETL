@@ -69,7 +69,32 @@ namespace IOT.ETL.Common
                 //取出
                 return client.Get<List<T>>(key);
             }
-        } 
+        }
+        #endregion
+
+
+        #region 放入缓存  sql语句存入
+        public void SetString(string list, string key)
+        {
+            using (IRedisClient client = new RedisClient("127.0.0.1", 6379))
+            {
+                //存入
+                client.Set<string>(key, list);
+            }
+        }
+        #endregion
+
+
+
+        #region 取出缓存 sql语句取出
+        public string GetString(string key)
+        {
+            using (IRedisClient client = new RedisClient("127.0.0.1", 6379))
+            {
+                //取出
+                return client.Get<string>(key);
+            }
+        }
         #endregion
     }
 }

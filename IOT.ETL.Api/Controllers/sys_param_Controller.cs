@@ -44,6 +44,7 @@ namespace IOT.ETL.Api.Controllers
         {
             int i = _param.Insert_sys_param(model);
             if (i > 0)
+
             {
                 logger.Debug($"对数据库中的参数字典表进行添加数据");
             }
