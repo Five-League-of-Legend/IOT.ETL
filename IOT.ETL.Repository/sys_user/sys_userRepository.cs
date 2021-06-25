@@ -20,6 +20,7 @@ namespace IOT.ETL.Repository.sys_user
         }
         public List<Model.sys_user> Query()
         {
+            lst = null;
             string sql = "select * from sys_user";
             if (lst == null || lst.Count == 0)
             {
@@ -30,19 +31,42 @@ namespace IOT.ETL.Repository.sys_user
         }
         public int Insert(Model.sys_user a)
         {
-
-
-            string sql = $"insert into sys_user values(uuid(),'{a.name}','{a.email}','{a.phone}','{a.img_url}','{a.username}','{a.password}','{a.is_admin}','{a.status}','{a.revision}','{a.create_by}',now(),'{a.update_by}',now())";
-            int i = DapperHelper.Execute(sql);
-            if (i > 0)
+            string sql2 = "select * from sys_user";
+            List<Model.sys_user> listuser = DapperHelper.GetList<Model.sys_user>(sql2);
+            if (listuser.Count!=0)
             {
-                a = DapperHelper.GetList<Model.sys_user>("select * from sys_user order by create_time desc LIMIT 1").FirstOrDefault();
-                lst.Add(a);
-                us.SetList(lst, redisKey);
+                listuser = listuser.Where(x => x.name.Equals(a.name)).ToList();
+                listuser = listuser.Where(x => x.username.Equals(a.username)).ToList();
+                listuser = listuser.Where(x => x.email.Equals(a.email)).ToList();
+                if (listuser.Count==0)
+                {
+                    string sql = $"insert into sys_user values(uuid(),'{a.name}','{a.email}','{a.phone}','{a.img_url}','{a.username}','{a.password}','{a.is_admin}','{a.status}','{a.revision}','{a.create_by}',now(),'{a.update_by}',now())";
+                    int i = DapperHelper.Execute(sql);
+                    if (i > 0)
+                    {
+                        a = DapperHelper.GetList<Model.sys_user>("select * from sys_user order by create_time desc LIMIT 1").FirstOrDefault();
+                        lst.Add(a);
+                        us.SetList(lst, redisKey);
+                    }
+                    return i;
+                }
+                else
+                {
+                    return -1;
+                }
             }
-            return i;
-
-
+            else
+            {
+                string sql = $"insert into sys_user values(uuid(),'{a.name}','{a.email}','{a.phone}','{a.img_url}','{a.username}','{a.password}','{a.is_admin}','{a.status}','{a.revision}','{a.create_by}',now(),'{a.update_by}',now())";
+                int i = DapperHelper.Execute(sql);
+                if (i > 0)
+                {
+                    a = DapperHelper.GetList<Model.sys_user>("select * from sys_user order by create_time desc LIMIT 1").FirstOrDefault();
+                    lst.Add(a);
+                    us.SetList(lst, redisKey);
+                }
+                return i;
+            }
         }
         public int UptState(string id)
         {
