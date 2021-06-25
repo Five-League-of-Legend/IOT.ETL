@@ -14,5 +14,6 @@ namespace IOT.ETL.IRepository.etl_data_engine
         int Delete_etl_data_engine(string ids);
         int Uptdate_etl_data_engine(Model.etl_data_engine model);
         List<Model.etl_data_engine_type> Binds();
+        int Uptdate_code(Model.etl_data_engine model);
     }
 }

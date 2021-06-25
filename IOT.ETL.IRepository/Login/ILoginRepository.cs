@@ -12,5 +12,7 @@ namespace IOT.ETL.IRepository.Login
         object Login(string loginName, string pwd);
         //注册
         int Register(Model.sys_user model);
+        //修改密码
+        int UptdatePwd(string email,string pwd);
     }
 }
