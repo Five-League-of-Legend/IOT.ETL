@@ -9,10 +9,10 @@ namespace IOT.ETL.IRepository.Login
     public interface ILoginRepository
     {
         //登录
-        object Login(string loginName, string pwd);
+        Task<object> Login(string loginName, string pwd);
         //注册
-        int Register(Model.sys_user model);
+        Task<int> Register(Model.sys_user model);
         //修改密码
-        int UptdatePwd(string email,string pwd);
+        Task<int> UptdatePwd(string email,string pwd);
     }
 }

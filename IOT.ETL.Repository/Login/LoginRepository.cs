@@ -32,7 +32,7 @@ namespace IOT.ETL.Repository.Login
         /// <param name="loginName">用户名</param>
         /// <param name="pwd">密码</param>
         /// <returns></returns>
-        public object Login(string loginName, string pwd)
+        public async Task<object> Login(string loginName, string pwd)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace IOT.ETL.Repository.Login
                 if (Convert.ToInt32(result) > 0)
                 {
                     string sql = $"select * from sys_user where username='{loginName}' AND password='{DESEncrypt.GetMd5Str(pwd)}'";
-                    lst = DapperHelper.GetList<Model.sys_user>(sql);
+                    lst = await DapperHelper.GetList<Model.sys_user>(sql);
                     rh.SetList(lst, redisLogin);
                 }
                 return result;
@@ -57,18 +57,18 @@ namespace IOT.ETL.Repository.Login
         /// </summary>
         /// <param name="model">用户信息</param>
         /// <returns></returns>
-        public int Register(Model.sys_user model)
+        public async Task<int> Register(Model.sys_user model)
         {
             try
             {
                 string sql1 = "select * from sys_user";
-                List<Model.sys_user> ls = DapperHelper.GetList<Model.sys_user>(sql1);
+                List<Model.sys_user> ls = await DapperHelper.GetList<Model.sys_user>(sql1);
                 ls = ls.Where(x => x.name.Equals(model.name) || x.username.Equals(model.username)||x.email.Equals(model.email)).ToList();
                 //判断用户名是否已经存在
                 if (ls == null || ls.Count == 0)
                 {
                     string sql = $"insert into sys_user VALUES (UUID(),'{model.name}','{model.email}','{model.phone}','{model.img_url}','{model.username}','{DESEncrypt.GetMd5Str(model.password)}',{model.is_admin},{model.status},0,'{model.name}',NOW(),'{model.name}',NOW())";
-                    int i = DapperHelper.Execute(sql);
+                    int i = await DapperHelper.Execute(sql);
                     return i;
                 }
                 else
@@ -88,12 +88,12 @@ namespace IOT.ETL.Repository.Login
         /// <param name="email"></param>
         /// <param name="pwd"></param>
         /// <returns></returns>
-        public int UptdatePwd(string email, string pwd)
+        public async Task<int> UptdatePwd(string email, string pwd)
         {
             try
             {
                 string sql = $"UPDATE sys_user SET password='{DESEncrypt.GetMd5Str(pwd)}' WHERE email='{email}'";
-                int i = DapperHelper.Execute(sql);
+                int i = await DapperHelper.Execute(sql);
                 return i;
             }
             catch (Exception ex)

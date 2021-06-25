@@ -31,10 +31,10 @@ namespace IOT.ETL.Repository.etl_data_engine
             listuser = ru.GetList(redisLogin);
         }
         //绑定规则引擎类型
-        public List<etl_data_engine_type> Binds()
+        public async Task<List<etl_data_engine_type>> Binds()
         {
             string sql = "select * from etl_data_engine_type";
-            List<Model.etl_data_engine_type> list = DapperHelper.GetList<Model.etl_data_engine_type>(sql);
+            List<Model.etl_data_engine_type> list = await DapperHelper.GetList<Model.etl_data_engine_type>(sql);
             return list;
         }
         /// <summary>
@@ -42,13 +42,13 @@ namespace IOT.ETL.Repository.etl_data_engine
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public int Delete_etl_data_engine(string ids)
+        public async Task<int> Delete_etl_data_engine(string ids)
         {
             //异常处理
             try
             {
                 string sql = $"delete from etl_data_engine WHERE id in ('{ids}')";
-                int i = DapperHelper.Execute(sql);
+                int i = await DapperHelper.Execute(sql);
                 if (i>0)
                 {
                     string[] arr = ids.Split(',');
@@ -72,13 +72,13 @@ namespace IOT.ETL.Repository.etl_data_engine
         /// 获取规则引擎的数据
         /// </summary>
         /// <returns></returns>
-        public List<Model.etl_data_engine> GetList_etl_data_engine()
+        public async Task<List<Model.etl_data_engine>> GetList_etl_data_engine()
         {
             try
             {
                 lst = null;
                 string sql = "select a.*,b.engine_type FROM etl_data_engine a join etl_data_engine_type b on a.engine_type_id=b.id";
-                List<Model.etl_data_engine> list = DapperHelper.GetList<Model.etl_data_engine>(sql);
+                List<Model.etl_data_engine> list = await DapperHelper.GetList<Model.etl_data_engine>(sql);
                 //判断缓存数据是否存在
                 if (lst==null||lst.Count==0)
                 {
@@ -98,7 +98,7 @@ namespace IOT.ETL.Repository.etl_data_engine
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public int Insert_etl_data_engine(Model.etl_data_engine model)
+        public async Task<int> Insert_etl_data_engine(Model.etl_data_engine model)
         {
             try
             {
@@ -106,11 +106,11 @@ namespace IOT.ETL.Repository.etl_data_engine
                 model.create_by = ms.name;
                 model.update_by = ms.name;
                 string sql = $"insert into etl_data_engine VALUES (UUID(),'{model.engine_name}',{model.engine_type_id},'{model.code_type}','{model.cl_name}',0,'{model.create_by}',NOW(),'{model.update_by}',NOW(),'{model.engine_code}');";
-                int i = DapperHelper.Execute(sql);
+                int i = await DapperHelper.Execute(sql);
                 if (i>0)
                 {
                     string sql1 = "select * FROM etl_data_engine ORDER BY create_time DESC LIMIT 1";
-                    List<Model.etl_data_engine> list = DapperHelper.GetList<Model.etl_data_engine>(sql1);
+                    List<Model.etl_data_engine> list = await DapperHelper.GetList<Model.etl_data_engine>(sql1);
                     Model.etl_data_engine me = list.FirstOrDefault();
                     //放入集合
                     lst.Add(me);
@@ -131,12 +131,12 @@ namespace IOT.ETL.Repository.etl_data_engine
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public int Uptdate_code(Model.etl_data_engine model)
+        public async Task<int> Uptdate_code(Model.etl_data_engine model)
         {
             try
             {
                 string sql = $"UPDATE etl_data_engine SET engine_code='{model.engine_code}' WHERE id ='{model.id}'";
-                int i = DapperHelper.Execute(sql);
+                int i = await DapperHelper.Execute(sql);
                 if (i>0)
                 {
                     Model.etl_data_engine me = lst.FirstOrDefault(x => x.id.Equals(model.id));
@@ -152,14 +152,14 @@ namespace IOT.ETL.Repository.etl_data_engine
             }
         }
         //修改规则引擎
-        public int Uptdate_etl_data_engine(Model.etl_data_engine model)
+        public async Task<int> Uptdate_etl_data_engine(Model.etl_data_engine model)
         {
             try
             {
                 Model.sys_user ms = listuser.FirstOrDefault();
                 model.update_by = ms.name;
                 string sql = $"UPDATE etl_data_engine SET engine_name='{model.engine_name}',engine_type_id={model.engine_type_id},code_type='{model.code_type}',cl_name='{model.cl_name}',update_by='{model.update_by}',update_time=NOW() WHERE id ='{model.id}'";
-                int i = DapperHelper.Execute(sql);
+                int i = await DapperHelper.Execute(sql);
                 if (i>0)
                 {
                     Model.etl_data_engine me = lst.FirstOrDefault(x => x.id.Equals(model.id));

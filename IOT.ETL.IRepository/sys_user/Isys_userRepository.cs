@@ -8,10 +8,10 @@ namespace IOT.ETL.IRepository.sys_user
 {
     public interface Isys_userRepository
     {
-        List<Model.sys_user> Query();
-        int Insert(Model.sys_user a);
-        int UptState(string id);
-        int Uptuser(Model.sys_user a);
-        int DelUser(string id);
+        Task<List<Model.sys_user>> Query();
+        Task<int> Insert(Model.sys_user a);
+        Task<int> UptState(string id);
+        Task<int> Uptuser(Model.sys_user a);
+        Task<int> DelUser(string id);
     }
 }

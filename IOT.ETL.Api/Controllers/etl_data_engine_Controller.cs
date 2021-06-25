@@ -35,9 +35,9 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/Binds")]
-        public IActionResult Binds()
+        public async Task<OkObjectResult> Binds()
         {
-            List<Model.etl_data_engine_type> list = _edei.Binds();
+            List<Model.etl_data_engine_type> list = await _edei.Binds();
             return Ok(list);
         }
         /// <summary>
@@ -46,11 +46,11 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/etl_data_engine_show")]
-        public IActionResult etl_data_engine_show(string rulename="",string codetype="",string clname="")
+        public async Task<OkObjectResult> etl_data_engine_show(string rulename="",string codetype="",string clname="")
         {
             Model.sys_user user = lst.FirstOrDefault();
             logger.Debug($"{user.name}对数据库中的规则引擎表进行查看");
-            List<Model.etl_data_engine> list = _edei.GetList_etl_data_engine();
+            List<Model.etl_data_engine> list = await _edei.GetList_etl_data_engine();
             if (!string.IsNullOrEmpty(rulename))
             {
                 list = list.Where(x => x.engine_name.Contains(rulename)).ToList();
@@ -72,9 +72,9 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/etl_data_engine_insert")]
-        public int etl_data_engine_insert([FromForm]Model.etl_data_engine model)
+        public async Task<int> etl_data_engine_insert([FromForm]Model.etl_data_engine model)
         {
-            int i = _edei.Insert_etl_data_engine(model);
+            int i = await _edei.Insert_etl_data_engine(model);
              if (i>0)
             {
                 Model.sys_user user = lst.FirstOrDefault();
@@ -89,9 +89,9 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/etl_data_engine_delete")]
-        public int etl_data_engine_delete(string ids)
+        public async Task<int> etl_data_engine_delete(string ids)
         {
-            int i = _edei.Delete_etl_data_engine(ids);
+            int i =await _edei.Delete_etl_data_engine(ids);
             if (i > 0)
             {
                 Model.sys_user user = lst.FirstOrDefault();
@@ -106,9 +106,9 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/Update_Codedata")]
-        public int Update_Codedata([FromForm]Model.etl_data_engine model)
+        public async Task<int> Update_Codedata([FromForm]Model.etl_data_engine model)
         {
-            int i = _edei.Uptdate_code(model);
+            int i =await _edei.Uptdate_code(model);
             if (i>0)
             {
                 Model.sys_user user = lst.FirstOrDefault();
@@ -123,9 +123,9 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/etl_data_engine_uptdate")]
-        public int etl_data_engine_uptdate([FromForm]Model.etl_data_engine model)
+        public async Task<int> etl_data_engine_uptdate([FromForm]Model.etl_data_engine model)
         {
-            int i = _edei.Uptdate_etl_data_engine(model);
+            int i = await _edei.Uptdate_etl_data_engine(model);
             if (i > 0)
             {
                 Model.sys_user user = lst.FirstOrDefault();

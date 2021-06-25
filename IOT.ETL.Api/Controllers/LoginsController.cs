@@ -36,9 +36,9 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [Route("/api/Login")]
         [HttpPost]
-        public int Login(string uname, string upwd)
+        public async Task<int> Login(string uname, string upwd)
         {
-            object obj = _loginRepository.Login(uname, upwd);
+            object obj = await _loginRepository.Login(uname, upwd);
             int i = Convert.ToInt32(obj);
             if (i > 0)
             {
@@ -53,9 +53,9 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/Register_Add")]
-        public int Register_Add([FromForm] Model.sys_user user)
+        public async Task<int> Register_Add([FromForm] Model.sys_user user)
         {
-            int i = _loginRepository.Register(user);
+            int i =await _loginRepository.Register(user);
             if (i > 0)
             {
                 logger.Debug($"用户名为:{user.name}的用户在{DateTime.Now}注册成功");
@@ -69,12 +69,12 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/TestEamil")]
-        public int TestEamil(string email)
+        public async Task<int> TestEamil(string email)
         {
             try
             {
                 //获取所有数据
-                var list = _sys_UserRepository.Query();
+                var list =await _sys_UserRepository.Query();
                 var ss = list.FirstOrDefault(x => x.email.Equals(email));
                 //判断有没有这个邮箱的用户
                 if (ss == null)
@@ -114,7 +114,7 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/Testcode")]
-        public int Testcode(string email,string fcode)
+        public async Task<int> Testcode(string email,string fcode)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace IOT.ETL.Api.Controllers
         
         [HttpPost]
         [Route("/api/UptPwd")]
-        public int UptPwd(string email,string pwd)
+        public async Task<int> UptPwd(string email,string pwd)
         {
             try
             {
@@ -157,7 +157,7 @@ namespace IOT.ETL.Api.Controllers
                 {
                     return -1;//此邮箱不是发送验证码的邮箱
                 }
-                var i = _loginRepository.UptdatePwd(email, pwd);
+                var i = await _loginRepository.UptdatePwd(email, pwd);
                 if (i>0)
                 {
                     logger.Debug($"邮箱号为:{email}在" + DateTime.Now + "修改密码成功");
