@@ -36,7 +36,7 @@ namespace IOT.ETL.Repository.Login
         {
             try
             {
-                object result = DapperHelper.Exescalar($"select count(1) from sys_user where username='{loginName}' and password='{DESEncrypt.GetMd5Str(pwd)}'");
+                object result = await DapperHelper.Exescalar($"select count(1) from sys_user where username='{loginName}' and password='{DESEncrypt.GetMd5Str(pwd)}'");
                 if (Convert.ToInt32(result) > 0)
                 {
                     string sql = $"select * from sys_user where username='{loginName}' AND password='{DESEncrypt.GetMd5Str(pwd)}'";
