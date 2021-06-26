@@ -23,12 +23,12 @@ namespace IOT.ETL.Repository.etl_task_info
         }
 
 
-        public List<Model.etl_task_info> GetList_etl_task_info()
+        public async Task<List<Model.etl_task_info>> GetList_etl_task_info()
         {
             try
             {
                 string sql = "select * from etl_task_info ";
-                List<Model.etl_task_info> list = DapperHelper.GetList<Model.etl_task_info>(sql);
+                List<Model.etl_task_info> list =await DapperHelper.GetList<Model.etl_task_info>(sql);
                 //判断缓存数据是否存在
                 if (lst == null || lst.Count == 0)
                 {

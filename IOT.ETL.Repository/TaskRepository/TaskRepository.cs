@@ -20,23 +20,24 @@ namespace IOT.ETL.Repository.TaskRepository
         {
             joinls = rh.GetList(str);
         }
-        public int AddTask(IOT.ETL.Model.etl_task_info ta)
+        public async Task<int> AddTask(IOT.ETL.Model.etl_task_info ta)
         {
             string sql = $"insert into etl_task_info values(UUID(),'{ta.Name}',{ta.Weight},0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,null,0,null,now(),null,now())";
-            int i = DapperHelper.Execute(sql);
+            int i = await DapperHelper.Execute(sql);
             if (i > 0)
             {
-                ta = DapperHelper.GetList<IOT.ETL.Model.etl_task_info>("select * from etl_task_info order by update_time DESC limit 1").First();
+                List<Model.etl_task_info> ls = await DapperHelper.GetList<IOT.ETL.Model.etl_task_info>("select * from etl_task_info order by update_time DESC limit 1");
+                ta = ls.FirstOrDefault();
                 joinls.Add(ta);
                 rh.SetList(joinls, str);
             }
             return i;
         }
 
-        public int DelTask(string id = "")
+        public async Task<int> DelTask(string id = "")
         {
             string sql = $"delete from etl_task_info where id = '{id}'";
-            int i = DapperHelper.Execute(sql);
+            int i = await DapperHelper.Execute(sql);
             if (i>0)
             {
                 IOT.ETL.Model.etl_task_info ls = joinls.First(x => x.Id.Equals(id));
@@ -46,13 +47,13 @@ namespace IOT.ETL.Repository.TaskRepository
             return i;
         }
 
-        public List<IOT.ETL.Model.etl_task_info> ShowTask()
+        public async Task<List<IOT.ETL.Model.etl_task_info>> ShowTask()
         {
 
             if (joinls == null || joinls.Count == 0)
             {
                 string sql = $"select * from etl_task_info";
-                joinls = DapperHelper.GetList<Model.etl_task_info>(sql);
+                joinls =await DapperHelper.GetList<Model.etl_task_info>(sql);
                 rh.SetList(joinls, str);
             }
 

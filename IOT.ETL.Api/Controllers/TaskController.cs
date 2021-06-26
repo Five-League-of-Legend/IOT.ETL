@@ -24,7 +24,7 @@ namespace IOT.ETL.Api.Controllers
         [Route("/api/ShowTask")]
         public async Task<OkObjectResult>  ShowTask(string nm = "", int weight = -1, int status = -2)
         {
-            List<etl_task_info> ls = _taskIRepository.ShowTask();
+            List<etl_task_info> ls =await _taskIRepository.ShowTask();
             if (!string.IsNullOrEmpty(nm))
             {
                 ls = ls.Where(x => x.Name.Contains(nm)).ToList();
@@ -47,7 +47,7 @@ namespace IOT.ETL.Api.Controllers
             int i = 0;
             try
             {
-                 i = _taskIRepository.AddTask(ta);
+                 i =await _taskIRepository.AddTask(ta);
                 logger.Debug($"添加数据成功了，时间：{DateTime.Now}");
             }
             catch (Exception ex)
@@ -66,7 +66,7 @@ namespace IOT.ETL.Api.Controllers
             int i = 0;
             try
             {
-                i = _taskIRepository.DelTask(id);
+                i =await _taskIRepository.DelTask(id);
                 logger.Debug($"任务管理中的数据成功删除了一条，时间：{DateTime.Now}");
             }
             catch (Exception ex)

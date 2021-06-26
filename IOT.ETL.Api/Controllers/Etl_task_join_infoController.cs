@@ -29,12 +29,12 @@ namespace IOT.ETL.Api.Controllers
         [HttpPost]
         [Route("/api/AddInputA")]
         //获取到第一个表的数据
-        public int AddInputA(etl_task_input_info ta)
+        public async Task<int> AddInputA(etl_task_input_info ta)
         {
             int i = 0;   
             try
             {
-                 i = _etl_Task_Join_InfoRepository.AddInputA(ta);
+                 i =await _etl_Task_Join_InfoRepository.AddInputA(ta);
             }
             catch (Exception ex)
             {
@@ -53,13 +53,13 @@ namespace IOT.ETL.Api.Controllers
         [HttpPost]
         [Route("/api/AddInputB")]
         //获取到第二个表的数据
-        public int AddInputB(etl_task_input_info ta)
+        public async Task<int> AddInputB(etl_task_input_info ta)
         {
 
             int i = 0;
             try
             {
-                i = _etl_Task_Join_InfoRepository.AddInputB(ta);
+                i =await _etl_Task_Join_InfoRepository.AddInputB(ta);
             }
             catch (Exception ex)
             {
@@ -78,45 +78,45 @@ namespace IOT.ETL.Api.Controllers
         [HttpPost]
         [Route("/api/AddJoin")]
         //拼接sql语句
-        public int AddJoin(etl_task_join_info jo)
+        public async Task<int> AddJoin(etl_task_join_info jo)
         {
-            int i = _etl_Task_Join_InfoRepository.AddJoin(jo);
+            int i =await _etl_Task_Join_InfoRepository.AddJoin(jo);
             return i;
         }
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //根据数据库名称查出所有字段
         [HttpGet]
         [Route("/api/ShowField")]
-        public ActionResult ShowField(string database_name="")
+        public async Task<OkObjectResult> ShowField(string database_name="")
         {
-            return Ok(new { msg="",code=0,data= _etl_Task_Join_InfoRepository.ShowField(database_name) });
+            return Ok(new { msg="",code=0,data=await _etl_Task_Join_InfoRepository.ShowField(database_name) });
         }
         [HttpGet]
         [Route("/api/FanFieldID")]
         //根据任务ID查询出其任务设计的相关信息   显示出对应字段 
-        public ActionResult FanFieldID(string id="")
+        public async Task<OkObjectResult> FanFieldID(string id="")
         {
-            return Ok(new { msg="",code=0,data= _etl_Task_Join_InfoRepository.FanFieldID(id) });
+            return Ok(new { msg="",code=0,data=await _etl_Task_Join_InfoRepository.FanFieldID(id) });
         }
         [HttpGet]
         [Route("/api/SelectBind")]
         //根据ID和所属的数据库进行筛选   显示其中选中字段
-        public ActionResult SelectBind(string database_name="", string id="")
+        public async Task<OkObjectResult> SelectBind(string database_name="", string id="")
         {
-            return Ok(new { msg="",code=0,data= _etl_Task_Join_InfoRepository.SelectBind(database_name, id) });
+            return Ok(new { msg="",code=0,data=await _etl_Task_Join_InfoRepository.SelectBind(database_name, id) });
         }
         [HttpGet]
         [Route("/api/OutputAllField")]
         //所有选中的字段输出
-        public ActionResult OutputAllField(string id="")
+        public async Task<OkObjectResult> OutputAllField(string id="")
         {
-            return Ok(new { msg="",code=0,data= _etl_Task_Join_InfoRepository.OutputAllField(id) });
+            return Ok(new { msg="",code=0,data=await _etl_Task_Join_InfoRepository.OutputAllField(id) });
         }
         //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //点击执行
         [HttpPost]
         [Route("/api/ExecuteAllSql")]
-        public int ExecuteAllSql(int flag=1,string id="",string name="")
+        public async Task<int> ExecuteAllSql(int flag=1,string id="",string name="")
         {
             try
             {
@@ -126,11 +126,11 @@ namespace IOT.ETL.Api.Controllers
                 {
                     case enum_DataBase.MySQL:
                         //获取全部数据
-                        i = _etl_Task_Join_InfoRepository.ExecuteAllSql(id,"");
+                        i =await _etl_Task_Join_InfoRepository.ExecuteAllSql(id,"");
                         break;
                     case enum_DataBase.SqlServer:
                         //获取全部数据
-                        i = _etl_Task_Join_InfoRepository.ExecuteAllSql(id, name);
+                        i =await _etl_Task_Join_InfoRepository.ExecuteAllSql(id, name);
                         break;
                 }
 

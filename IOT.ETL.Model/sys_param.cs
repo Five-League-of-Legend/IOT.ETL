@@ -21,5 +21,6 @@ namespace IOT.ETL.Model
         public DateTime Create_time { get; set; }//创建时间
         public string Update_by { get; set; }//修改人 （默认为创建人）
         public DateTime Update_time { get; set; }//修改时间 （默认为创建时间）
+        public bool HasChildren { get; set; }
     }
 }

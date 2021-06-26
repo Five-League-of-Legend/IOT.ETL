@@ -8,6 +8,6 @@ namespace IOT.ETL.IRepository.etl_task_info
 {
     public interface etl_task_info_IRepository
     {
-        List<Model.etl_task_info> GetList_etl_task_info();
+        Task<List<Model.etl_task_info>> GetList_etl_task_info();
     }
 }

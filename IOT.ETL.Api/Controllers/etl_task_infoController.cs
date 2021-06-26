@@ -25,10 +25,10 @@ namespace IOT.ETL.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/etl_task_info_show")]
-        public IActionResult etl_task_info_show()
+        public async Task<OkObjectResult> etl_task_info_show()
         {
             logger.Debug($"对数据库中的任务信息表进行查看");
-            List<Model.etl_task_info> list = _edei.GetList_etl_task_info();
+            List<Model.etl_task_info> list =await _edei.GetList_etl_task_info();
             return Ok(list);
         }
     }

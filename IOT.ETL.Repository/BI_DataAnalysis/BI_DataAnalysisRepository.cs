@@ -31,7 +31,7 @@ namespace IOT.ETL.Repository.BI_DataAnalysis
 
         }
 
-        public List<GetDataBases> GetDatabaseName(int flag)
+        public async Task<List<GetDataBases>> GetDatabaseName(int flag)
         {            
             string sql = "";
             string name = "";
@@ -55,14 +55,14 @@ namespace IOT.ETL.Repository.BI_DataAnalysis
             if (listd == null || listd.Count == 0)
             {
                 //拿到所有数据
-                listd = DapperHelper.GetList_BI<GetDataBases>(sql,name,flag);
+                listd =await DapperHelper.GetList_BI<GetDataBases>(sql,name,flag);
                 //放入缓存
                 dh.SetList(listd, dataredisKey);
             }
             return listd;
         }
 
-        public List<GetTables> GetTableName(string databasename, int flag)
+        public async Task<List<GetTables>> GetTableName(string databasename, int flag)
         {
             string sql = "";
             if (flag == 1)
@@ -84,7 +84,7 @@ namespace IOT.ETL.Repository.BI_DataAnalysis
             if (listt == null || listt.Count == 0)
             {
                 //拿到所有数据
-                listt = DapperHelper.GetList_BI<GetTables>(sql,databasename,flag);
+                listt = await DapperHelper.GetList_BI<GetTables>(sql,databasename,flag);
                 //放入缓存
                 th.SetList(listt, tableredisKey);
             }
@@ -98,9 +98,9 @@ namespace IOT.ETL.Repository.BI_DataAnalysis
         /// <param name="sql">sql语句</param>
         /// <param name="name">数据库名称</param>
         /// <returns></returns>
-        public string GetDataTable(string sql, string name)
+        public async Task<string> GetDataTable(string sql, string name)
         {
-            string json = DapperHelper.GetDataTable(sql, name);
+            string json =await DapperHelper.GetDataTable(sql, name);
 
             return json;
         }
@@ -111,18 +111,18 @@ namespace IOT.ETL.Repository.BI_DataAnalysis
         /// <param name="sql">sql语句</param>
         /// <param name="name">数据库名称</param>
         /// <returns></returns>
-        public string GetDataTableSql(string sql, string name)
+        public async Task<string> GetDataTableSql(string sql, string name)
         {
-            string json = DapperHelper.GetDataTableSql(sql, name);
+            string json = await DapperHelper.GetDataTableSql(sql, name);
 
             return json;
         }
 
 
-        public object GetSelTime()
+        public async Task<object> GetSelTime()
         {
             string sql = "";
-            return DapperHelper.Exescalar(sql);
+            return await DapperHelper.Exescalar(sql);
         }
 
 

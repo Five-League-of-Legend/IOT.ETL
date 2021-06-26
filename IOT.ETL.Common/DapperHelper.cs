@@ -79,13 +79,13 @@ namespace IOT.ETL.Common
         /// <param name="sql">sql语句</param>
         /// <param name="name">数据库名称</param>
         /// <returns></returns>
-        public static string GetDataTable(string sql, string name)
+        public static async Task<string> GetDataTable(string sql, string name)
         {
             try
             {
                 using (IDbConnection db = new MySqlConnection(ConfigurationManager.ConnName + name))
                 {
-                    var reader = db.Query(sql);
+                    var reader = await db.QueryAsync(sql);
 
                     string json = JsonConvert.SerializeObject(reader);
 
@@ -104,13 +104,13 @@ namespace IOT.ETL.Common
         /// <param name="sql">sql语句</param>
         /// <param name="name">数据库名称</param>
         /// <returns></returns>
-        public static string GetDataTableSql(string sql, string name)
+        public static async Task<string> GetDataTableSql(string sql, string name)
         {
             try
             {
                 using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnNameSql + name))
                 {
-                    var reader = db.Query(sql);
+                    var reader =await db.QueryAsync(sql);
 
                     string json = JsonConvert.SerializeObject(reader);
 
@@ -130,7 +130,7 @@ namespace IOT.ETL.Common
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public static List<T> GetList_BI<T>(string sql, string name, int flag = 1)
+        public static async Task<List<T>> GetList_BI<T>(string sql, string name, int flag = 1)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace IOT.ETL.Common
                     string conn = ConfigurationManager.ConnNameSql + name;
                     using (IDbConnection db = new SqlConnection(conn))
                     {
-                        return db.Query<T>(sql).ToList();
+                        return (List<T>)await db.QueryAsync<T>(sql);
                     }
                 }
                 else
@@ -164,7 +164,7 @@ namespace IOT.ETL.Common
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public static int Execute_plan(string sql, string name)
+        public static async Task<int> Execute_plan(string sql, string name)
         {
             try
             {
@@ -173,7 +173,7 @@ namespace IOT.ETL.Common
                     string conn = ConfigurationManager.ConnNameSql + name;
                     using (IDbConnection db = new SqlConnection(conn))
                     {
-                        return db.Execute(sql);
+                        return await db.ExecuteAsync(sql);
                     }
                 }
                 else

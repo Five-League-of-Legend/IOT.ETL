@@ -29,7 +29,7 @@ namespace IOT.ETL.Repository.Etl_task_join_info
             joinlsB = rh.GetList(cun2);
         }
         //获取到第一个表的数据
-        public int AddInputA(etl_task_input_info ta)
+        public async Task<int> AddInputA(etl_task_input_info ta)
         {
             int i = 0;
             List<IOT.ETL.Model.etl_task_join_info> a = JsonConvert.DeserializeObject<List<IOT.ETL.Model.etl_task_join_info>>(ta.ToString());
@@ -41,7 +41,7 @@ namespace IOT.ETL.Repository.Etl_task_join_info
             return i;
         }
         //获取到第二个表的数据
-        public int AddInputB(etl_task_input_info ta)
+        public async Task<int> AddInputB(etl_task_input_info ta)
         {
             int i = 0;
             List<IOT.ETL.Model.etl_task_join_info> a = JsonConvert.DeserializeObject<List<IOT.ETL.Model.etl_task_join_info>>(ta.ToString());
@@ -53,7 +53,7 @@ namespace IOT.ETL.Repository.Etl_task_join_info
             return i;
         }
         //拼接sql语句
-        public int AddJoin(etl_task_join_info jo)
+        public async Task<int> AddJoin(etl_task_join_info jo)
         {
             int i = 0;
 
@@ -80,28 +80,28 @@ namespace IOT.ETL.Repository.Etl_task_join_info
         }
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //根据数据库名称查出所有字段
-        public List<IOT.ETL.Model.etl_task_VModel> ShowField(string database_name)
+        public async Task<List<IOT.ETL.Model.etl_task_VModel>> ShowField(string database_name)
         {
             string sql = $"select * from etl_task_VModel where 1=1 ";
             if (!string.IsNullOrEmpty(database_name))
             {
                 sql += $" database_name = '{database_name}'";
             }
-            return DapperHelper.GetList<IOT.ETL.Model.etl_task_VModel>(sql);
+            return await DapperHelper.GetList<IOT.ETL.Model.etl_task_VModel>(sql);
         }
 
         //根据任务ID查询出其任务设计的相关信息   显示出对应字段 
-        public List<IOT.ETL.Model.etl_task_input_info> FanFieldID(string id)
+        public async Task<List<IOT.ETL.Model.etl_task_input_info>> FanFieldID(string id)
         {
             string sql = $"select table_name,table_as_name from etl_task_input_info where 1=1";
             if (!string.IsNullOrEmpty(id))
             {
                 sql += $" task_id = '{id}'";
             }
-            return DapperHelper.GetList<IOT.ETL.Model.etl_task_input_info>(sql);
+            return await DapperHelper.GetList<IOT.ETL.Model.etl_task_input_info>(sql);
         }
         //根据ID和所属的数据库进行筛选   显示其中选中字段
-        public List<IOT.ETL.Model.etl_task_VModel> SelectBind(string database_name, string id)
+        public async Task<List<IOT.ETL.Model.etl_task_VModel>> SelectBind(string database_name, string id)
         {
             string sql = $"select * from etl_task_VModel where 1=1";
             if (!string.IsNullOrEmpty(database_name))
@@ -112,27 +112,27 @@ namespace IOT.ETL.Repository.Etl_task_join_info
             {
                 sql += $" and id in ('{id}')";
             }
-            return DapperHelper.GetList<IOT.ETL.Model.etl_task_VModel>(sql);
+            return await DapperHelper.GetList<IOT.ETL.Model.etl_task_VModel>(sql);
         }
 
         //所有选中的字段输出
-        public List<IOT.ETL.Model.etl_task_VModel> OutputAllField(string id)
+        public async Task<List<IOT.ETL.Model.etl_task_VModel>> OutputAllField(string id)
         {
             string sql = $"select * from etl_task_VModel where 1=1";
             if (!string.IsNullOrEmpty(id))
             {
                 sql += $" id in ('{id}')";
             }
-            return DapperHelper.GetList<IOT.ETL.Model.etl_task_VModel>(sql);
+            return await DapperHelper.GetList<IOT.ETL.Model.etl_task_VModel>(sql);
         }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //点击执行
-        public int ExecuteAllSql(string id,string name)
+        public async Task<int> ExecuteAllSql(string id,string name)
         {
             int j = 0;
             //根据ID查询出指定任务   在找到指定任务下的执行次数
             string sqlTask = $"select * from etl_task_info where Id = '{id}'";
-            List<IOT.ETL.Model.etl_task_info> tals = DapperHelper.GetList<IOT.ETL.Model.etl_task_info>(sqlTask);
+            List<IOT.ETL.Model.etl_task_info> tals = await DapperHelper.GetList<IOT.ETL.Model.etl_task_info>(sqlTask);
             string taclass = JsonConvert.SerializeObject(tals);
             IOT.ETL.Model.etl_task_info tata = JsonConvert.DeserializeObject<IOT.ETL.Model.etl_task_info>(taclass);
 
@@ -142,7 +142,7 @@ namespace IOT.ETL.Repository.Etl_task_join_info
             sql += " where task_id= '{id}'";
             for (int i = 0; i < tata.Execute_total; i++)
             {
-                j += DapperHelper.Execute_plan(sql,name);
+                j +=await DapperHelper.Execute_plan(sql,name);
             }
             return j;
         }

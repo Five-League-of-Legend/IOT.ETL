@@ -41,8 +41,8 @@ namespace IOT.ETL.Api.Controllers.BI_DataAnalysis
             try
             {
                 //获取MySql全部数据
-                List<Model.GetDataBases> getDataBases = _iBI_DataAnalysisRepositor.GetDatabaseName(1);
-                List<Model.GetDataBases> getDataBasesSql = _iBI_DataAnalysisRepositor.GetDatabaseName(2);
+                List<Model.GetDataBases> getDataBases =await _iBI_DataAnalysisRepositor.GetDatabaseName(1);
+                List<Model.GetDataBases> getDataBasesSql =await _iBI_DataAnalysisRepositor.GetDatabaseName(2);
 
                 //用于拼接的字符串
                 StringBuilder builder = new StringBuilder();
@@ -60,7 +60,7 @@ namespace IOT.ETL.Api.Controllers.BI_DataAnalysis
                     builder.Append(",label:'" + getDataBases[i].SCHEMA_NAME + "'");
 
 
-                    List<Model.GetTables> getTables = _iBI_DataAnalysisRepositor.GetTableName(getDataBases[i].SCHEMA_NAME, 1);
+                    List<Model.GetTables> getTables =await _iBI_DataAnalysisRepositor.GetTableName(getDataBases[i].SCHEMA_NAME, 1);
                     builder.Append(",children:[");
 
                     //MySql第二层循环 拼接数据库下的表名
@@ -89,7 +89,7 @@ namespace IOT.ETL.Api.Controllers.BI_DataAnalysis
                     builder.Append(",label:'" + getDataBasesSql[i].SCHEMA_NAME + "'");
 
 
-                    List<Model.GetTables> getTablesSql = _iBI_DataAnalysisRepositor.GetTableName(getDataBasesSql[i].SCHEMA_NAME, 2);
+                    List<Model.GetTables> getTablesSql =await _iBI_DataAnalysisRepositor.GetTableName(getDataBasesSql[i].SCHEMA_NAME, 2);
                     builder.Append(",children:[");
 
                     //SqlServer第二层循环 拼接数据库下的表名
@@ -141,11 +141,11 @@ namespace IOT.ETL.Api.Controllers.BI_DataAnalysis
                 {
                     case enum_DataBase.MySQL:
                         //获取全部数据
-                        json = _iBI_DataAnalysisRepositor.GetDataTable(sql, name);
+                        json =await _iBI_DataAnalysisRepositor.GetDataTable(sql, name);
                         break;
                     case enum_DataBase.SqlServer:
                         //获取全部数据
-                        json = _iBI_DataAnalysisRepositor.GetDataTableSql(sql, name);
+                        json =await _iBI_DataAnalysisRepositor.GetDataTableSql(sql, name);
                         break;
                 }
 
