@@ -114,9 +114,9 @@ namespace IOT.ETL.Api.Controllers.BI_DataAnalysis
                 //返回字符串并去掉末尾逗号
                 return builder.ToString().TrimEnd(',');
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string ss = ex.Message;
                 throw;
             }
         }
@@ -131,10 +131,12 @@ namespace IOT.ETL.Api.Controllers.BI_DataAnalysis
         /// <returns></returns>
         [Route("/api/SqlGetJson")]
         [HttpGet]
-        public async Task<string> SqlGetJson(string sql, string name, int flag)
+        public async Task<object> SqlGetJson(string sql, string name, int flag) //async Task<string>
         {
             try
             {
+                DateTime dt1 = DateTime.Now;
+
                 enum_DataBase ed = (enum_DataBase)flag;
                 string json = "";
                 switch (ed)
@@ -149,11 +151,15 @@ namespace IOT.ETL.Api.Controllers.BI_DataAnalysis
                         break;
                 }
 
+                DateTime dt2 = DateTime.Now;
 
+                TimeSpan dt3 = dt2 - dt1;
+
+                string time = dt3.Minutes + "分" + dt3.Seconds + "秒" + dt3.Milliseconds + "毫秒";
 
                 logger.Debug($"根据数据库名称，sql查询其数据库并返回，执行SQL为:{sql}");
 
-                return json;
+                return Ok(new { json = json, time = time });
             }
             catch (Exception)
             {
