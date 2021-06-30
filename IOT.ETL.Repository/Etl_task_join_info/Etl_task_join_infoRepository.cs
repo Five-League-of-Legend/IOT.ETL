@@ -18,7 +18,7 @@ namespace IOT.ETL.Repository.Etl_task_join_info
         RedisHelper<IOT.ETL.Model.etl_task_join_info> rh = new RedisHelper<etl_task_join_info>();
         List<IOT.ETL.Model.etl_task_join_info> joinlsA = new List<etl_task_join_info>();
         List<IOT.ETL.Model.etl_task_join_info> joinlsB = new List<etl_task_join_info>();
-
+        RedisHelper<IOT.ETL.Model.etl_task_info> rhh = new RedisHelper<Model.etl_task_info>();
 
         //缓存实例化  存放SQL语句
         string sqlAll = "mainsql";
@@ -67,15 +67,15 @@ namespace IOT.ETL.Repository.Etl_task_join_info
             string sql = $"insert into etl_task_join_info values(UUID(),'{jo.node_id}','{jo.node_name}','{jo.task_id}','{jo.left_node_id}','{jo.left_id}','{jo.join_type}','{jo.right_node_id}','{jo.right_id}','{jo.left_join_field}','{jo.right_join_field}',{jo.revision},'{jo.create_by}',now(),'{jo.update_by}',now())";
             if (jo.join_type.Equals(1))
             {
-                 sql = $"insert into etl_task_join_info values(UUID(),'{jo.node_id}','{jo.node_name}','{jo.task_id}','{jo.left_node_id}','{jo.left_id}',' left join ','{jo.right_node_id}','{jo.right_id}','{jo.left_join_field}','{jo.right_join_field}',{jo.revision},'{jo.create_by}',now(),'{jo.update_by}',now())";
+                sql = $"insert into etl_task_join_info values(UUID(),'{jo.node_id}','{jo.node_name}','{jo.task_id}','{jo.left_node_id}','{jo.left_id}',' left join ','{jo.right_node_id}','{jo.right_id}','{jo.left_join_field}','{jo.right_join_field}',{jo.revision},'{jo.create_by}',now(),'{jo.update_by}',now())";
             }
             else if (jo.join_type.Equals(2))
             {
-                 sql = $"insert into etl_task_join_info values(UUID(),'{jo.node_id}','{jo.node_name}','{jo.task_id}','{jo.left_node_id}','{jo.left_id}',' right join ','{jo.right_node_id}','{jo.right_id}','{jo.left_join_field}','{jo.right_join_field}',{jo.revision},'{jo.create_by}',now(),'{jo.update_by}',now())";
+                sql = $"insert into etl_task_join_info values(UUID(),'{jo.node_id}','{jo.node_name}','{jo.task_id}','{jo.left_node_id}','{jo.left_id}',' right join ','{jo.right_node_id}','{jo.right_id}','{jo.left_join_field}','{jo.right_join_field}',{jo.revision},'{jo.create_by}',now(),'{jo.update_by}',now())";
             }
             else
             {
-                 sql = $"insert into etl_task_join_info values(UUID(),'{jo.node_id}','{jo.node_name}','{jo.task_id}','{jo.left_node_id}','{jo.left_id}',' inner join ','{jo.right_node_id}','{jo.right_id}','{jo.left_join_field}','{jo.right_join_field}',{jo.revision},'{jo.create_by}',now(),'{jo.update_by}',now())";
+                sql = $"insert into etl_task_join_info values(UUID(),'{jo.node_id}','{jo.node_name}','{jo.task_id}','{jo.left_node_id}','{jo.left_id}',' inner join ','{jo.right_node_id}','{jo.right_id}','{jo.left_join_field}','{jo.right_join_field}',{jo.revision},'{jo.create_by}',now(),'{jo.update_by}',now())";
             }
 
 
@@ -89,7 +89,7 @@ namespace IOT.ETL.Repository.Etl_task_join_info
 
             return i;
         }
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //根据数据库名称查出所有字段
         public async Task<List<IOT.ETL.Model.etl_task_VModel>> ShowField(string database_name)
         {
@@ -120,14 +120,14 @@ namespace IOT.ETL.Repository.Etl_task_join_info
             {
                 sql += $" and database_name = '{database_name}'";
             }
-           
+
             if (!string.IsNullOrEmpty(id))
             {
                 string[] arr = id.Split(',');
                 int[] err = Array.ConvertAll<string, int>(arr, delegate (string s) { return int.Parse(s); });
                 for (int i = 0; i < err.Length; i++)
                 {
-                    if (i==0)
+                    if (i == 0)
                     {
                         sql += $" and id  ={err[i]}";
                     }
@@ -150,23 +150,39 @@ namespace IOT.ETL.Repository.Etl_task_join_info
             }
             return await DapperHelper.GetList<IOT.ETL.Model.etl_task_VModel>(sql);
         }
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //点击执行
-        public async Task<int> ExecuteAllSql(string id,string name)
+        public async Task<int> ExecuteAllSql(string id, string name)
         {
             int j = 0;
             //根据ID查询出指定任务   在找到指定任务下的执行次数
             string sqlTask = $"select * from etl_task_info where Id = '{id}'";
             List<Model.etl_task_info> tals = await DapperHelper.GetList<Model.etl_task_info>(sqlTask);
-            Model.etl_task_info tata = tals.FirstOrDefault(m=>m.Id==id);
-                //取出缓存   并拼接   根据条件插入
-                string sql =$"{rds.GetString(sqlAll)}" ;
-                for (int i = 0; i < tata.Execute_total; i++)
+            Model.etl_task_info tata = tals.FirstOrDefault(m => m.Id == id);
+
+
+            //取出缓存   并拼接   根据条件插入
+            string sql = $"{rds.GetString(sqlAll)}";
+            for (int i = 0; i < tata.Execute_total; i++)
+            {
+                j += await DapperHelper.Execute_plan(sql, name);
+            }
+            if (j > 0)
+            {
+                string sqlsuccess = $"update etl_task_info set success_insert_total=success_insert_total+{j} where Id='{id}'";
+                int q = await DapperHelper.Execute(sqlsuccess);
+                if (q > 0)
                 {
-                    j += await DapperHelper.Execute_plan(sql, name);
+                    string sqlupt = $"update etl_task_info set success_update_total=success_update_total+{q} where Id='{id}'";
+                    int w = await DapperHelper.Execute(sqlupt);
                 }
-           
+            }
+            string sqltable = $"select * from etl_task_info";
+            List<IOT.ETL.Model.etl_task_info> joinls = new List<Model.etl_task_info>();
+             joinls = await DapperHelper.GetList<Model.etl_task_info>(sqltable);
+            rhh.SetList(joinls, "strTask");
             return j;
+
         }
 
 
