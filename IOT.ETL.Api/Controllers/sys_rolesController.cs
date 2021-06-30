@@ -83,7 +83,7 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/UpdateRoles")]
         [HttpPost]
-        public async Task<int> UpdateRoles(Model.sys_role a)
+        public async Task<int> UpdateRoles([FromForm]Model.sys_role a)
         {
             try
             {

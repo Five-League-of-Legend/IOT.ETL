@@ -41,7 +41,8 @@ namespace IOT.ETL.Repository.sys_user
         public async Task<List<Model.sys_role>> Bang()
         {
             string sql = $"select id,role_name from sys_role";
-            return await DapperHelper.GetList<Model.sys_role>(sql);
+            List<Model.sys_role> ls = await DapperHelper.GetList<Model.sys_role>(sql);
+            return ls;
         }
         public async Task<int> Insert(Model.sys_user a)
         {

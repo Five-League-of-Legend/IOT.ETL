@@ -119,9 +119,10 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/Bang")]
         [HttpGet]
-        public IActionResult Bang()
+        public async Task<IActionResult> Bang()
         {
-            return Ok(_sys_userRepository.Bang());
+            List<Model.sys_role> list = await _sys_userRepository.Bang();
+            return Ok(list);
         }
 
     }
