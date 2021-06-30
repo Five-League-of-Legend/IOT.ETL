@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IOT.ETL.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace IOT.ETL.IRepository.sys_user
         int Insert(Model.sys_user a);
         int UptState(string id);
         int Uptuser(Model.sys_user a);
-        int DelUser(string id);
+        int DelUser(string ids);
+        List<Model. sys_role> Bang();
     }
 }

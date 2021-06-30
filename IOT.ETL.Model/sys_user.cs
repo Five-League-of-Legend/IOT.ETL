@@ -24,5 +24,6 @@ namespace IOT.ETL.Model
         public string update_by { get; set; }
         public DateTime UPDATED_TIME { get; set; }
         public string UPDATED_TIMEs { get { return UPDATED_TIME.ToString("yyyy-MM-dd HH:mm:ss"); } }
+        public string role_id { get; set; }
     }
 }

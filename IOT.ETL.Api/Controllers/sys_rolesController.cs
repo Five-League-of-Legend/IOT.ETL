@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOT.ETL.IRepository.sys_role;
+using NLog;
 
 namespace IOT.ETL.Api.Controllers
 {
@@ -12,6 +13,7 @@ namespace IOT.ETL.Api.Controllers
     [ApiController]
     public class sys_rolesController : ControllerBase
     {
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();//实例化
         private readonly Isys_roleRepository _sys_roleRepository;
         public sys_rolesController(Isys_roleRepository sys_roleRepository)
         {
@@ -50,6 +52,7 @@ namespace IOT.ETL.Api.Controllers
         {
             try
             {
+                logger.Debug($"用户对秒杀配置进行删除,删除的配置ID为:{id}");
                 return _sys_roleRepository.DelRoles(id);
             }
             catch (Exception)
@@ -65,6 +68,7 @@ namespace IOT.ETL.Api.Controllers
         {
             try
             {
+                logger.Debug($"用户对秒杀配置进行添加,添加的配置名称为:{a.role_name}");
                 int i = _sys_roleRepository.insertRoles(a);
                 return i;
             }
@@ -78,10 +82,11 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/UpdateRoles")]
         [HttpPost]
-        public int UpdateRoles(Model.sys_role a)
+        public int UpdateRoles([FromForm]Model.sys_role a)
         {
             try
             {
+                logger.Debug($"用户对秒杀配置进行修改,修改的配置ID为:{a.id}");
                 int i = _sys_roleRepository.UpdateRoles(a);
                 return i;
             }
@@ -91,5 +96,8 @@ namespace IOT.ETL.Api.Controllers
                 throw;
             }
         }
+      
+
+     
     }
 }

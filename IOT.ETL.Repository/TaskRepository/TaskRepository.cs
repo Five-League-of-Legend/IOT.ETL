@@ -33,6 +33,11 @@ namespace IOT.ETL.Repository.TaskRepository
             return i;
         }
 
+        public List<Model.sys_user_role> Bang()
+        {
+            throw new NotImplementedException();
+        }
+
         public int DelTask(string id = "")
         {
             string sql = $"delete from etl_task_info where id = '{id}'";
@@ -59,5 +64,9 @@ namespace IOT.ETL.Repository.TaskRepository
             return joinls;
         }
 
+        List<Model.sys_user_role> TaskIRepository.Bang()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

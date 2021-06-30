@@ -24,9 +24,9 @@ namespace IOT.ETL.Common
                     return db.Query<T>(sql).ToList();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string e = ex.Message;
                 throw;
             }
         }
@@ -44,9 +44,9 @@ namespace IOT.ETL.Common
                     return db.Execute(sql);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string e = ex.Message;
                 throw;
             }
         }
@@ -64,8 +64,9 @@ namespace IOT.ETL.Common
                     return db.ExecuteScalar(sql);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                string e = ex.Message;
                 throw;
             }
         }
