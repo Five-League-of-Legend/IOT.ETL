@@ -16,7 +16,6 @@ namespace IOT.ETL.Repository.Etl_task_join_info
         string cun2 = "joinB";
         //缓存实例化  存放类
         RedisHelper<IOT.ETL.Model.etl_task_join_info> rh = new RedisHelper<etl_task_join_info>();
-        RedisHelper<IOT.ETL.Model.etl_task_info> rhh = new RedisHelper<Model.etl_task_info>();
         List<IOT.ETL.Model.etl_task_join_info> joinlsA = new List<etl_task_join_info>();
         List<IOT.ETL.Model.etl_task_join_info> joinlsB = new List<etl_task_join_info>();
 
@@ -160,30 +159,14 @@ namespace IOT.ETL.Repository.Etl_task_join_info
             string sqlTask = $"select * from etl_task_info where Id = '{id}'";
             List<Model.etl_task_info> tals = await DapperHelper.GetList<Model.etl_task_info>(sqlTask);
             Model.etl_task_info tata = tals.FirstOrDefault(m=>m.Id==id);
-
-
                 //取出缓存   并拼接   根据条件插入
                 string sql =$"{rds.GetString(sqlAll)}" ;
                 for (int i = 0; i < tata.Execute_total; i++)
                 {
                     j += await DapperHelper.Execute_plan(sql, name);
                 }
-
-            if (j>0)
-            {
-                string sqlsuccess = $"update etl_task_info set success_insert_total+={j} where Id='{id}'";
-                int q = await DapperHelper.Execute(sqlsuccess);
-                if (q>0)
-                {
-                    string sqlupt = $"update etl_task_info set success_update_total+={q} where Id='{id}'";
-                    int w = await DapperHelper.Execute(sqlsuccess);
-                }
-            }
-            string sqltable = $"select * from etl_task_info";
-            List<IOT.ETL.Model.etl_task_info> joinls = await DapperHelper.GetList<Model.etl_task_info>(sql);
-            rhh.SetList(joinls, "strTask");
+           
             return j;
-            
         }
 
 

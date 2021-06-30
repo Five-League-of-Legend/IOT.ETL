@@ -14,7 +14,7 @@ namespace IOT.ETL.Model
         public int Weight { get; set; }                 //任务权重级别 0紧急任务1高2中3低
         public int Process_status { get; set; }         //任务执行状态 -1待执行 0可执行 1正在执行 2执行完成
         public int Status { get; set; }                 //任务状态 1无错误0有错误
-        public int Total { get; set; }                  //总处理条数
+        public int Total { get { return Success_insert_total + Success_update_total + Success_delete_total + Error_add_total + Error_logic_total; } }//总处理条数
         public int Process_total { get; set; }          //已处理条数
         public decimal Proportion { get; set; }         //任务完成度
         public int Error_total { get; set; }            //错误条数
