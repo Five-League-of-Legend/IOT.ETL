@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOT.ETL.IRepository.sys_user;
+using NLog;
 
 namespace IOT.ETL.Api.Controllers
 {
@@ -12,6 +13,7 @@ namespace IOT.ETL.Api.Controllers
     [ApiController]
     public class sys_usersController : ControllerBase
     {
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly Isys_userRepository _sys_userRepository;
         public sys_usersController(Isys_userRepository sys_userRepository)
         {
@@ -55,6 +57,7 @@ namespace IOT.ETL.Api.Controllers
         {
             try
             {
+                logger.Debug($"用户对秒杀配置进行添加,添加的配置名称为:{a.name}");
                 int i = await _sys_userRepository.Insert(a);
                 return i;
             }
@@ -87,6 +90,7 @@ namespace IOT.ETL.Api.Controllers
         {
             try
             {
+                logger.Debug($"用户对秒杀配置进行修改,修改的配置ID为:{a.id}");
                 int i = await _sys_userRepository.Uptuser(a);
                 return i;
             }
@@ -103,14 +107,23 @@ namespace IOT.ETL.Api.Controllers
         {
             try
             {
+                logger.Debug($"用户对秒杀配置进行删除,删除的配置ID为:{id}");
                 return await _sys_userRepository.DelUser(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string nn = ex.Message;
                 throw;
             }
 
         }
+        [Route("/api/Bang")]
+        [HttpGet]
+        public async Task<IActionResult> Bang()
+        {
+            List<Model.sys_role> list = await _sys_userRepository.Bang();
+            return Ok(list);
+        }
+
     }
 }

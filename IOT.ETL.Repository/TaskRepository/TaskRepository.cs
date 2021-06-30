@@ -59,7 +59,5 @@ namespace IOT.ETL.Repository.TaskRepository
 
             return joinls;
         }
-
-
     }
 }

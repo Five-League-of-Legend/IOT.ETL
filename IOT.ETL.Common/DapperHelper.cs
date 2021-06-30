@@ -27,9 +27,9 @@ namespace IOT.ETL.Common
                     return (List<T>)await db.QueryAsync<T>(sql);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string e = ex.Message;
                 throw;
             }
         }
@@ -47,9 +47,9 @@ namespace IOT.ETL.Common
                     return await db.ExecuteAsync(sql);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string e = ex.Message;
                 throw;
             }
         }
@@ -67,8 +67,9 @@ namespace IOT.ETL.Common
                     return await db.ExecuteScalarAsync(sql);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                string e = ex.Message;
                 throw;
             }
         }
