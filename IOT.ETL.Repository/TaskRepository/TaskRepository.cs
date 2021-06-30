@@ -43,6 +43,8 @@ namespace IOT.ETL.Repository.TaskRepository
                 IOT.ETL.Model.etl_task_info ls = joinls.First(x => x.Id.Equals(id));
                 joinls.Remove(ls);
                 rh.SetList(joinls, str);
+                string sqlDel = $"update etl_task_info set success_delete_total=success_delete_total+{i} where  Id = '{id}'";
+                int e = await DapperHelper.Execute(sql);
             }
             return i;
         }
