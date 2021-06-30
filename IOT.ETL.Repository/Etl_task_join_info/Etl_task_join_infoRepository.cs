@@ -16,6 +16,7 @@ namespace IOT.ETL.Repository.Etl_task_join_info
         string cun2 = "joinB";
         //缓存实例化  存放类
         RedisHelper<IOT.ETL.Model.etl_task_join_info> rh = new RedisHelper<etl_task_join_info>();
+        RedisHelper<IOT.ETL.Model.etl_task_info> rhh = new RedisHelper<Model.etl_task_info>();
         List<IOT.ETL.Model.etl_task_join_info> joinlsA = new List<etl_task_join_info>();
         List<IOT.ETL.Model.etl_task_join_info> joinlsB = new List<etl_task_join_info>();
         RedisHelper<IOT.ETL.Model.etl_task_info> rhh = new RedisHelper<Model.etl_task_info>();

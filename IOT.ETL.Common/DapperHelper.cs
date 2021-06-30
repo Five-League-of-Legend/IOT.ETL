@@ -27,9 +27,9 @@ namespace IOT.ETL.Common
                     return (List<T>)await db.QueryAsync<T>(sql);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string e = ex.Message;
                 throw;
             }
         }
@@ -47,9 +47,9 @@ namespace IOT.ETL.Common
                     return await db.ExecuteAsync(sql);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                string e = ex.Message;
                 throw;
             }
         }
@@ -67,8 +67,9 @@ namespace IOT.ETL.Common
                     return await db.ExecuteScalarAsync(sql);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                string e = ex.Message;
                 throw;
             }
         }
@@ -191,5 +192,28 @@ namespace IOT.ETL.Common
                 throw;
             }
         }
+
+        /// <summary>
+        /// 测试连接字符串是否正确
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <returns></returns>
+        public static async Task<int> Ceshi(string Conn)
+        {
+            try
+            {
+                using (IDbConnection con = new MySqlConnection(Conn))
+                {
+                    dynamic n = await con.QueryAsync("select uuid()");
+                    return 1;
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+                throw;
+            }
+        }
     }
+
 }

@@ -25,6 +25,14 @@ using IOT.ETL.IRepository.TaskIRepository;
 using IOT.ETL.Repository.TaskRepository;
 using IOT.ETL.IRepository.Etl_task_join_info;
 using IOT.ETL.Repository.Etl_task_join_info;
+using IOT.ETL.IRepository.sys_modules;
+using IOT.ETL.Repository.sys_modules;
+using IOT.ETL.IRepository.sysy_user_role;
+using IOT.ETL.Repository.sys_user_role;
+using IOT.ETL.IRepository.sys_role_modules;
+using IOT.ETL.Repository.sys_role_modules;
+using IOT.ETL.Repository.datasourceRepository;
+using IOT.ETL.IRepository.IdatasourceRepository;
 
 namespace IOT.ETL.Api
 {
@@ -67,7 +75,14 @@ namespace IOT.ETL.Api
             services.AddScoped<etl_task_info_IRepository, etl_task_info_Repository>();
             services.AddSingleton<IBI_DataAnalysisRepositor, BI_DataAnalysisRepository>();
 
+            services.AddScoped<IdatasourceRepository, DatasourceRepository>();
+
+
             //øÁ”Ú
+            services.AddScoped<Isys_modulesRepository, sys_modulesRepository>();
+            services.AddScoped<Isys_user_roleRepository, sys_user_roleRepository>();
+            services.AddScoped<Isys_role_modulesRepository, sys_role_modulesRepository>();
+            //øÁ”Ú0
             services.AddCors(options =>
             options.AddPolicy("cors",
             p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));

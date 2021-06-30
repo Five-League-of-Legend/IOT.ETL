@@ -19,5 +19,8 @@ namespace IOT.ETL.Model
         public DateTime create_time { get; set; }
         public string update_by { get; set; }
         public DateTime update_time { get; set; }
+        public string name { get; set; }
+        public string module_id { get; set; }
+        
     }
 }
