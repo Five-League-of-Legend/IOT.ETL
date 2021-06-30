@@ -191,5 +191,28 @@ namespace IOT.ETL.Common
                 throw;
             }
         }
+
+        /// <summary>
+        /// 测试连接字符串是否正确
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <returns></returns>
+        public static async Task<int> Ceshi(string Conn)
+        {
+            try
+            {
+                using (IDbConnection con = new MySqlConnection(Conn))
+                {
+                    dynamic n = await con.QueryAsync("select uuid()");
+                    return 1;
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+                throw;
+            }
+        }
     }
+
 }

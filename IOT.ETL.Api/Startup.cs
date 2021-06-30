@@ -25,6 +25,8 @@ using IOT.ETL.IRepository.TaskIRepository;
 using IOT.ETL.Repository.TaskRepository;
 using IOT.ETL.IRepository.Etl_task_join_info;
 using IOT.ETL.Repository.Etl_task_join_info;
+using IOT.ETL.Repository.datasourceRepository;
+using IOT.ETL.IRepository.IdatasourceRepository;
 
 namespace IOT.ETL.Api
 {
@@ -66,6 +68,9 @@ namespace IOT.ETL.Api
             services.AddScoped<sys_param_IRepository, sys_param_Repository>();
             services.AddScoped<etl_task_info_IRepository, etl_task_info_Repository>();
             services.AddSingleton<IBI_DataAnalysisRepositor, BI_DataAnalysisRepository>();
+
+            services.AddScoped<IdatasourceRepository, DatasourceRepository>();
+
 
             //¿çÓò
             services.AddCors(options =>
