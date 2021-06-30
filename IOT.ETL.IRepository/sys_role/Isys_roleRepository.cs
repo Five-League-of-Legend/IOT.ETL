@@ -8,9 +8,9 @@ namespace IOT.ETL.IRepository.sys_role
 {
     public interface Isys_roleRepository
     {
-        List<Model.sys_role> ShowRoles();
-        int DelRoles(string id);
-        int insertRoles(Model.sys_role a);
-        int UpdateRoles(Model.sys_role a);
+        Task<List<Model.sys_role>> ShowRoles();
+        Task<int> DelRoles(string id);
+        Task<int> insertRoles(Model.sys_role a);
+        Task<int> UpdateRoles(Model.sys_role a);
     }
 }

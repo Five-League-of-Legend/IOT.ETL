@@ -21,11 +21,11 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/Query")]
         [HttpGet]
-        public IActionResult Query(string nm = "", string ph = "", string usernm = "")
+        public async Task<OkObjectResult> Query(string nm = "", string ph = "", string usernm = "")
         {
             try
             {
-                List<Model.sys_user> ls = _sys_userRepository.Query();
+                List<Model.sys_user> ls = await _sys_userRepository.Query();
                 if (!string.IsNullOrEmpty(nm))
                 {
                     ls = ls.Where(x => x.name.Contains(nm)).ToList();
@@ -53,7 +53,7 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/Insert")]
         [HttpPost]
-        public int Insert(Model.sys_user a)
+        public async Task<int> Insert(Model.sys_user a)
         {
             try
             {
@@ -71,11 +71,11 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/UptState")]
         [HttpPost]
-        public int UptState(string id)
+        public async Task<int> UptState(string id)
         {
             try
             {
-                return _sys_userRepository.UptState(id);
+                return await _sys_userRepository.UptState(id);
             }
             catch (Exception)
             {
@@ -86,7 +86,7 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/Uptuser")]
         [HttpPost]
-        public int Uptuser(Model.sys_user a)
+        public async Task<int> Uptuser(Model.sys_user a)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/DelUser")]
         [HttpPost]
-        public  int DelUser(string ids)
+        public async Task<int> DelUser(string id)
         {
             try
             {

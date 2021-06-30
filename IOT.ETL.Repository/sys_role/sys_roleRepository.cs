@@ -25,8 +25,7 @@ namespace IOT.ETL.Repository.sys_role
             redisLogin = "loginlist";
             loginls = lo.GetList(redisLogin);
         }
-        //显示
-        public List<Model.sys_role> ShowRoles()
+        public async Task<List<Model.sys_role>> ShowRoles()
         {
             rls = null;
             try 
@@ -51,8 +50,7 @@ namespace IOT.ETL.Repository.sys_role
             }
 
         }
-        //删除
-        public int DelRoles(string id)
+        public async Task<int> DelRoles(string id)
         {
            
 
@@ -94,8 +92,7 @@ namespace IOT.ETL.Repository.sys_role
   
             return i;
         }
-        //修改
-        public int UpdateRoles(Model.sys_role a)
+        public async Task<int> UpdateRoles(Model.sys_role a)
         {
             Model.sys_user mm = loginls.FirstOrDefault();
             string sql = $"Update sys_role set role_name='{a.role_name}',role_status='{a.role_status}',revision='{a.revision}',create_by='{mm.name}',create_time=now(),update_by='{mm.name}',update_time=now() where id='{a.id}'";

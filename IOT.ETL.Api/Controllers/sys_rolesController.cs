@@ -21,13 +21,14 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/ShowRoles")]
         [HttpGet]
-        public IActionResult ShowRoles(string sname = "")
+        public async Task<OkObjectResult> ShowRoles(string sname = "")
         {
             try
             {
-                var ls = _sys_roleRepository.ShowRoles();
+                var ls =await _sys_roleRepository.ShowRoles();
                 if (!string.IsNullOrEmpty(sname))
                 {
+                   
                     ls = ls.Where(x => x.role_name.Contains(sname)).ToList();
                 }
                 return Ok(new
@@ -48,7 +49,7 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/DelRoles")]
         [HttpPost]
-        public int DelRoles(string id)
+        public async Task<int> DelRoles(string id)
         {
             try
             {
@@ -64,7 +65,7 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/insertRoles")]
         [HttpPost]
-        public int insertRoles(Model.sys_role a)
+        public async Task<int> insertRoles(Model.sys_role a)
         {
             try
             {
@@ -82,7 +83,7 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/UpdateRoles")]
         [HttpPost]
-        public int UpdateRoles([FromForm]Model.sys_role a)
+        public async Task<int> UpdateRoles(Model.sys_role a)
         {
             try
             {

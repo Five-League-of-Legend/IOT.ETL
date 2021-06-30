@@ -4,6 +4,9 @@ using System.Linq;
 using MySql.Data.MySqlClient;
 using System.Data;
 using Dapper;
+using System.Data.SqlClient;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace IOT.ETL.Common
 {
@@ -15,13 +18,13 @@ namespace IOT.ETL.Common
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public static List<T> GetList<T>(string sql)
+        public static async Task<List<T>> GetList<T>(string sql)
         {
             try
             {
                 using (IDbConnection db = new MySqlConnection(ConfigurationManager.Conn))
                 {
-                    return db.Query<T>(sql).ToList();
+                    return (List<T>)await db.QueryAsync<T>(sql);
                 }
             }
             catch (Exception ex)
@@ -35,13 +38,13 @@ namespace IOT.ETL.Common
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public static int Execute(string sql)
+        public static async Task<int> Execute(string sql)
         {
             try
             {
                 using (IDbConnection db = new MySqlConnection(ConfigurationManager.Conn))
                 {
-                    return db.Execute(sql);
+                    return await db.ExecuteAsync(sql);
                 }
             }
             catch (Exception ex)
@@ -55,18 +58,137 @@ namespace IOT.ETL.Common
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public static object Exescalar(string sql)
+        public static async Task<object> Exescalar(string sql)
         {
             try
             {
                 using (IDbConnection db = new MySqlConnection(ConfigurationManager.Conn))
                 {
-                    return db.ExecuteScalar(sql);
+                    return await db.ExecuteScalarAsync(sql);
                 }
             }
             catch (Exception ex)
             {
                 string e = ex.Message;
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 根据数据库名称获取其中表数据MySql
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="name">数据库名称</param>
+        /// <returns></returns>
+        public static async Task<string> GetDataTable(string sql, string name)
+        {
+            try
+            {
+                using (IDbConnection db = new MySqlConnection(ConfigurationManager.ConnName + name))
+                {
+                    var reader = await db.QueryAsync(sql);
+
+                    string json = JsonConvert.SerializeObject(reader);
+
+                    return json;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        /// <summary>
+        /// 根据数据库名称获取其中表数据SqlServer
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="name">数据库名称</param>
+        /// <returns></returns>
+        public static async Task<string> GetDataTableSql(string sql, string name)
+        {
+            try
+            {
+                using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnNameSql + name))
+                {
+                    var reader =await db.QueryAsync(sql);
+
+                    string json = JsonConvert.SerializeObject(reader);
+
+                    return json;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 获取数据_BI数据分析
+        ///</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static async Task<List<T>> GetList_BI<T>(string sql, string name, int flag = 1)
+        {
+            try
+            {
+                if (flag != 1)
+                {
+                    string conn = ConfigurationManager.ConnNameSql + name;
+                    using (IDbConnection db = new SqlConnection(conn))
+                    {
+                        return (List<T>)await db.QueryAsync<T>(sql);
+                    }
+                }
+                else
+                {
+                    using (IDbConnection db = new MySqlConnection(ConfigurationManager.Conn))
+                    {
+                        return db.Query<T>(sql).ToList();
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 任务管理检测
+        ///</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static async Task<int> Execute_plan(string sql, string name)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(name))
+                {
+                    string conn = ConfigurationManager.ConnNameSql + name;
+                    using (IDbConnection db = new SqlConnection(conn))
+                    {
+                        return await db.ExecuteAsync(sql);
+                    }
+                }
+                else
+                {
+                    using (IDbConnection db = new MySqlConnection(ConfigurationManager.Conn))
+                    {
+                        return db.Execute(sql);
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

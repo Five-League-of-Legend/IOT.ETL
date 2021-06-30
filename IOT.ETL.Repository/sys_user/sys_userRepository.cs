@@ -26,14 +26,14 @@ namespace IOT.ETL.Repository.sys_user
             redislogin = "loginlist";
             loginls = loginre.GetList(redislogin);
         }
-        public List<Model.sys_user> Query()
+        public async Task<List<Model.sys_user>> Query()
         {
             lst = null;
          //   string sql = "select * from sys_user";
             string sql = "select a.id,a.name,a.username,c.id roleid,a.phone,a.status from sys_user a join sys_user_role b on a.id=b.user_id join sys_role c on b.role_id=c.id";
             if (lst == null || lst.Count == 0)
             {
-                lst = DapperHelper.GetList<Model.sys_user>(sql);
+                lst = await DapperHelper.GetList<Model.sys_user>(sql);
                 us.SetList(lst, redisKey);
             }
             return lst;
@@ -108,7 +108,7 @@ namespace IOT.ETL.Repository.sys_user
             return i;
         }
 
-        public int Uptuser(Model.sys_user a)
+        public async Task<int> Uptuser(Model.sys_user a)
         {
             Model.sys_user mm = loginls.FirstOrDefault();
             string sql = $"Update sys_user set name='{a.name}',email='{a.email}',phone='{a.phone}',img_url='{a.img_url}',username='{a.username}',password='{a.password}',is_admin='{a.is_admin}',status='{a.status}',revision='{a.revision}',create_by='{mm.name}',create_time=now(),update_by='{mm.name}',UPDATED_TIME=now() where id='{a.id}'";

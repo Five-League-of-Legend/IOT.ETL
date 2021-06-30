@@ -10,7 +10,21 @@ using IOT.ETL.Repository.etl_data_engine;
 using IOT.ETL.Repository.Login;
 using IOT.ETL.Repository.sys_role;
 using IOT.ETL.Repository.sys_user;
+using IOT.ETL.Repository.sys_param;
 using System;
+using IOT.ETL.IRepository.etl_data_engine;
+using IOT.ETL.IRepository.sys_param;
+using IOT.ETL.Repository.etl_task_info;
+using IOT.ETL.IRepository.etl_task_info;
+using IOT.ETL.IRepository.Login;
+using IOT.ETL.IRepository.sys_role;
+using IOT.ETL.IRepository.sys_user;
+using IOT.ETL.IRepository.BI_DataAnalysis;
+using IOT.ETL.Repository.BI_DataAnalysis;
+using IOT.ETL.IRepository.TaskIRepository;
+using IOT.ETL.Repository.TaskRepository;
+using IOT.ETL.IRepository.Etl_task_join_info;
+using IOT.ETL.Repository.Etl_task_join_info;
 using IOT.ETL.IRepository.etl_data_engine;
 using IOT.ETL.IRepository.Login;
 using IOT.ETL.IRepository.sys_role;
@@ -54,12 +68,18 @@ namespace IOT.ETL.Api
 
             #region ×¢Èë
             services.AddSingleton<TaskIRepository, TaskRepository>();
+            services.AddSingleton<Etl_task_join_infoIRepository, Etl_task_join_infoRepository>();
 
             #endregion
             services.AddScoped<etl_data_engine_IRepository, etl_data_engine_Repository>();
             services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddScoped<Isys_roleRepository, sys_roleRepository>();
             services.AddScoped<Isys_userRepository, sys_userRepository>();
+            services.AddScoped<sys_param_IRepository, sys_param_Repository>();
+            services.AddScoped<etl_task_info_IRepository, etl_task_info_Repository>();
+            services.AddSingleton<IBI_DataAnalysisRepositor, BI_DataAnalysisRepository>();
+
+            //¿çÓò
             services.AddScoped<Isys_modulesRepository, sys_modulesRepository>();
             services.AddScoped<Isys_user_roleRepository, sys_user_roleRepository>();
             services.AddScoped<Isys_role_modulesRepository, sys_role_modulesRepository>();

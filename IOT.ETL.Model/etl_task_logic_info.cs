@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOT.ETL.Model
 {
-    class etl_task_logic_info
+    public class etl_task_logic_info
     {
         /// <summary>
         /// 任务处理过程表

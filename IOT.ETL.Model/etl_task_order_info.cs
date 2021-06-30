@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOT.ETL.Model
 {
-    class etl_task_order_info
+    public class etl_task_order_info
     {
         /// <summary>
         /// 任务处理排序表

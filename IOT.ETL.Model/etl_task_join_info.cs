@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOT.ETL.Model
 {
-    class etl_task_join_info
+    public class etl_task_join_info
     {
         //数据关联表
         public string id { get; set; }
@@ -25,5 +25,8 @@ namespace IOT.ETL.Model
         public DateTime create_time { get; set; }    //创建时间
         public string update_by { get; set; }        //更新人
         public DateTime update_time { get; set; }    //更新时间
+
+
+
     }
 }
