@@ -17,12 +17,12 @@ namespace IOT.ETL.Api.Controllers
 
         [Route("/api/GetSys_Modules")]
         [HttpGet]
-        public List<Model.sys_modules> GetSys_Modules()
+        public async Task<List<Model.sys_modules>> GetSys_Modules()
         {
             try
             {
 
-                return _sys_modulesRepository.GetSys_Modules();
+                return await _sys_modulesRepository.GetSys_Modules();
             }
             catch (Exception)
             {
@@ -33,9 +33,9 @@ namespace IOT.ETL.Api.Controllers
         }
         [HttpGet]
         [Route("/api/BindTree")]
-        public IActionResult BindTree()
+        public async Task<IActionResult> BindTree()
         {
-            List<Dictionary<string, object>> ls = _sys_modulesRepository.BindTree();
+            List<Dictionary<string, object>> ls =await _sys_modulesRepository.BindTree();
             return Ok(ls);
         }
 

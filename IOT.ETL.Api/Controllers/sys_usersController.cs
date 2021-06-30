@@ -58,7 +58,7 @@ namespace IOT.ETL.Api.Controllers
             try
             {
                 logger.Debug($"用户对秒杀配置进行添加,添加的配置名称为:{a.name}");
-                int i = _sys_userRepository.Insert(a);
+                int i = await _sys_userRepository.Insert(a);
                 return i;
             }
             catch (Exception)
@@ -91,7 +91,7 @@ namespace IOT.ETL.Api.Controllers
             try
             {
                 logger.Debug($"用户对秒杀配置进行修改,修改的配置ID为:{a.id}");
-                int i = _sys_userRepository.Uptuser(a);
+                int i = await _sys_userRepository.Uptuser(a);
                 return i;
             }
             catch (Exception)
@@ -107,8 +107,8 @@ namespace IOT.ETL.Api.Controllers
         {
             try
             {
-                logger.Debug($"用户对秒杀配置进行删除,删除的配置ID为:{ids}");
-                return  _sys_userRepository.DelUser(ids);
+                logger.Debug($"用户对秒杀配置进行删除,删除的配置ID为:{id}");
+                return await _sys_userRepository.DelUser(id);
             }
             catch (Exception ex)
             {

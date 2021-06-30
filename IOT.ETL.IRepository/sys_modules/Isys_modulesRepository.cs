@@ -8,7 +8,7 @@ namespace IOT.ETL.IRepository.sys_modules
 {
    public interface Isys_modulesRepository
     {
-        List<Model.sys_modules> GetSys_Modules();
-        List<Dictionary<string, object>> BindTree();
+        Task<List<Model.sys_modules>> GetSys_Modules();
+        Task<List<Dictionary<string, object>>> BindTree();
     }
 }

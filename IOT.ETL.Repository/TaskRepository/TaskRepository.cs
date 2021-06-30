@@ -59,10 +59,5 @@ namespace IOT.ETL.Repository.TaskRepository
 
             return joinls;
         }
-
-        List<Model.sys_user_role> TaskIRepository.Bang()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

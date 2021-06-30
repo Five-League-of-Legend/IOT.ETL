@@ -14,5 +14,6 @@ namespace IOT.ETL.IRepository.sys_user
         Task<int> UptState(string id);
         Task<int> Uptuser(Model.sys_user a);
         Task<int> DelUser(string id);
+        Task<List<Model.sys_role>> Bang();
     }
 }

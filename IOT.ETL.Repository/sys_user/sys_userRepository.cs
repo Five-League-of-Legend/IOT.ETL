@@ -38,40 +38,42 @@ namespace IOT.ETL.Repository.sys_user
             }
             return lst;
         }
-        public List<Model.sys_role> Bang()
+        public async Task<List<Model.sys_role>> Bang()
         {
             string sql = $"select id,role_name from sys_role";
-            return DapperHelper.GetList<Model.sys_role>(sql);
+            return await DapperHelper.GetList<Model.sys_role>(sql);
         }
-        public int Insert(Model.sys_user a)
+        public async Task<int> Insert(Model.sys_user a)
         {
 
             Model.sys_user mm = loginls.FirstOrDefault();
             string id= Guid.NewGuid().ToString();
 
             string sql = $"insert into sys_user values('{id}','{a.name}','{a.email}','{a.phone}','{a.img_url}','{a.username}','{a.password}','{a.is_admin}','{a.status}','{a.revision}','{mm.name}',now(),'{mm.name}',now())";
-            int i = DapperHelper.Execute(sql);
+            int i = await DapperHelper.Execute(sql);
             if (i > 0)
             {
                 string sql2 = $"insert into sys_user_role values(uuid(),'{id}','{a.role_id}')";
-                int m = DapperHelper.Execute(sql2);
+                int m = await DapperHelper.Execute(sql2);
                 if (m>0)
                 {
 
 
                 }
 
-                a = DapperHelper.GetList<Model.sys_user>("select * from sys_user order by create_time desc LIMIT 1").FirstOrDefault();
+                List<Model.sys_user> lu = await DapperHelper.GetList<Model.sys_user>("select * from sys_user order by create_time desc LIMIT 1");
+                a = lu.FirstOrDefault();
                 lst.Add(a);
                 us.SetList(lst, redisKey);
             }
             return i;
         }
-        public int UptState(string id)
+        public async Task<int> UptState(string id)
         {
 
 
-            Model.sys_user ls = DapperHelper.GetList<IOT.ETL.Model.sys_user>($"select * from sys_user where id='{id}'").FirstOrDefault();
+            List<Model.sys_user> list = await DapperHelper.GetList<IOT.ETL.Model.sys_user>($"select * from sys_user where id='{id}'");
+            Model.sys_user ls = list.FirstOrDefault();
             if (ls.status == 0)
             {
                 ls.status = 1;
@@ -81,7 +83,7 @@ namespace IOT.ETL.Repository.sys_user
                 ls.status = 0;
             }
             string sql = $"Update sys_user set status='{ls.status}' where id='{ls.id}'";
-            int i= DapperHelper.Execute(sql);
+            int i= await DapperHelper.Execute(sql);
             if (i>0)
             {
                 lst.FirstOrDefault(x => x.id.Equals(id)).status = ls.status;
@@ -112,7 +114,7 @@ namespace IOT.ETL.Repository.sys_user
         {
             Model.sys_user mm = loginls.FirstOrDefault();
             string sql = $"Update sys_user set name='{a.name}',email='{a.email}',phone='{a.phone}',img_url='{a.img_url}',username='{a.username}',password='{a.password}',is_admin='{a.is_admin}',status='{a.status}',revision='{a.revision}',create_by='{mm.name}',create_time=now(),update_by='{mm.name}',UPDATED_TIME=now() where id='{a.id}'";
-            int i = DapperHelper.Execute(sql);
+            int i = await DapperHelper.Execute(sql);
             if (i > 0)
             {
                 lst[lst.IndexOf(lst.FirstOrDefault(x => x.id == a.id))] = a;
@@ -121,11 +123,11 @@ namespace IOT.ETL.Repository.sys_user
             return i;
 
         }
-        public int DelUser(string ids)
+        public async Task<int> DelUser(string ids)
         {
             string sql = $"delete from sys_user where id='{ids}'";
              
-            int i= DapperHelper.Execute(sql);
+            int i= await DapperHelper.Execute(sql);
             if (i>0)
             {
                 string[] arr = ids.Split(',');

@@ -38,7 +38,7 @@ namespace IOT.ETL.Repository.sys_role
                
                 if (rls == null || rls.Count == 1)
                 {
-                    rls = DapperHelper.GetList<Model.sys_role>(sql);
+                    rls = await DapperHelper.GetList<Model.sys_role>(sql);
                     rl.SetList(rls, redisKey);
                 }
                 return rls;
@@ -56,7 +56,7 @@ namespace IOT.ETL.Repository.sys_role
 
             string sql = $"delete from sys_role where id='{id}'";
 
-            int i = DapperHelper.Execute(sql);
+            int i = await DapperHelper.Execute(sql);
             if (i > 0)
             {
                 string[] arr = id.Split(',');
@@ -70,21 +70,22 @@ namespace IOT.ETL.Repository.sys_role
             return i;
         }
         //添加
-        public int insertRoles(Model.sys_role a)
+        public async Task<int> insertRoles(Model.sys_role a)
         {
             Model.sys_user mm = loginls.FirstOrDefault();
             string id = Guid.NewGuid().ToString();
             string sql = $"insert into sys_role VALUES('{id}','{a.role_name}','{a.role_status}','{a.revision}','{mm.name}',now(),'{mm.name}',now())";
-            int i = DapperHelper.Execute(sql);
+            int i = await DapperHelper.Execute(sql);
             if (i > 0)
             {
-              //  string sql2 = $"insert into sys_role_modules values(uuid(),'{id}','{a.module_id}')";
-               // int m = DapperHelper.Execute(sql2);
-               // if (m>0)
-               // {
+                //  string sql2 = $"insert into sys_role_modules values(uuid(),'{id}','{a.module_id}')";
+                // int m = DapperHelper.Execute(sql2);
+                // if (m>0)
+                // {
 
-               // }
-                Model.sys_role mc = DapperHelper.GetList<Model.sys_role>("select * from sys_role order by id desc LIMIT 1").FirstOrDefault();
+                // }
+                List<Model.sys_role> ls = await DapperHelper.GetList<Model.sys_role>("select * from sys_role order by id desc LIMIT 1");
+                Model.sys_role mc = ls.FirstOrDefault();
                 a = mc;
                 rls.Add(a);
                 rl.SetList(rls, redisKey);
@@ -96,7 +97,7 @@ namespace IOT.ETL.Repository.sys_role
         {
             Model.sys_user mm = loginls.FirstOrDefault();
             string sql = $"Update sys_role set role_name='{a.role_name}',role_status='{a.role_status}',revision='{a.revision}',create_by='{mm.name}',create_time=now(),update_by='{mm.name}',update_time=now() where id='{a.id}'";
-            int i = DapperHelper.Execute(sql);
+            int i = await DapperHelper.Execute(sql);
             if (i > 0)
             {
                 rls[rls.IndexOf(rls.FirstOrDefault(x => x.id == a.id))] = a;

@@ -8,6 +8,6 @@ namespace IOT.ETL.IRepository.sysy_user_role
 {
      public interface Isys_user_roleRepository
      {
-        int Add(Model.sys_user_role m);
+        Task<int> Add(Model.sys_user_role m);
      }
 }

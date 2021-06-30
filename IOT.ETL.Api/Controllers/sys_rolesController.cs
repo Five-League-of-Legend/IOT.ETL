@@ -54,7 +54,7 @@ namespace IOT.ETL.Api.Controllers
             try
             {
                 logger.Debug($"用户对秒杀配置进行删除,删除的配置ID为:{id}");
-                return _sys_roleRepository.DelRoles(id);
+                return await _sys_roleRepository.DelRoles(id);
             }
             catch (Exception)
             {
@@ -70,7 +70,7 @@ namespace IOT.ETL.Api.Controllers
             try
             {
                 logger.Debug($"用户对秒杀配置进行添加,添加的配置名称为:{a.role_name}");
-                int i = _sys_roleRepository.insertRoles(a);
+                int i = await _sys_roleRepository.insertRoles(a);
                 return i;
             }
             catch (Exception)
@@ -88,7 +88,7 @@ namespace IOT.ETL.Api.Controllers
             try
             {
                 logger.Debug($"用户对秒杀配置进行修改,修改的配置ID为:{a.id}");
-                int i = _sys_roleRepository.UpdateRoles(a);
+                int i = await _sys_roleRepository.UpdateRoles(a);
                 return i;
             }
             catch (Exception)

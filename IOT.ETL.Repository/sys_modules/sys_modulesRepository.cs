@@ -20,10 +20,10 @@ namespace IOT.ETL.Repository.sys_modules
             
         }
 
-        public List<Dictionary<string, object>> BindTree()
+        public async Task<List<Dictionary<string, object>>> BindTree()
         {
             string sql = "select * from sys_modules";
-            List<Model.sys_modules> ls = DapperHelper.GetList<Model.sys_modules>(sql);
+            List<Model.sys_modules> ls = await DapperHelper.GetList<Model.sys_modules>(sql);
             List<Dictionary<string, object>> result = Recursion(ls, "0");
             return result;
         }
@@ -53,12 +53,12 @@ namespace IOT.ETL.Repository.sys_modules
             }
             return json;
         }
-        public List<Model.sys_modules> GetSys_Modules()
+        public async Task<List<Model.sys_modules>> GetSys_Modules()
         {
             string sql = "select * from sys_modules";
             if (lst==null || lst.Count==0)
             {
-                lst = DapperHelper.GetList<Model.sys_modules>(sql);
+                lst =await DapperHelper.GetList<Model.sys_modules>(sql);
                 md.SetList(lst, redisKey);
             }
             return lst;

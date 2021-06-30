@@ -19,29 +19,29 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/Addss")]
         [HttpPost]
-        public int Adds(Model.sys_role_modules m)
+        public async Task<int> Adds(Model.sys_role_modules m)
         {
-            return _sys_role_modulesRepository.Adds(m);
+            return await _sys_role_modulesRepository.Adds(m);
         }
         [Route("/api/Uptss")]
         [HttpPost]
-        public int Uptuser(Model.sys_role_modules a)
+        public async Task<int> Uptuser(Model.sys_role_modules a)
         {
 
-            return _sys_role_modulesRepository.Uptuser(a);
+            return await _sys_role_modulesRepository.Uptuser(a);
 
         }
         [Route("/api/Uptft")]
         [HttpPost]
-        public List<Model.sys_role_modules> Uptft(string id)
+        public async Task<List<Model.sys_role_modules>> Uptft(string id)
         {
-            return _sys_role_modulesRepository.Uptft(id);
+            return await _sys_role_modulesRepository.Uptft(id);
         }
         [Route("/api/chas")]
         [HttpPost]
-        public IActionResult cha(string id)
+        public async Task<IActionResult> cha(string id)
         {
-            object ls = _sys_role_modulesRepository.cha(id);
+            object ls = await _sys_role_modulesRepository.cha(id);
             if(ls==null)
             {
                 return Ok(-1);

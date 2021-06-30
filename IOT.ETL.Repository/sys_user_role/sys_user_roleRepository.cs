@@ -18,14 +18,15 @@ namespace IOT.ETL.Repository.sys_user_role
             redisKey = "sys_ruser_list";
             lst = ur.GetList(redisKey);
         }
-        public int Add(Model.sys_user_role m)
+        public async Task<int> Add(Model.sys_user_role m)
         {
             string sql = $"insert into sys_user_role values(uuid(),'{m.role_id}','{m.user_id}')";
     
-            int i = DapperHelper.Execute(sql);
+            int i = await DapperHelper.Execute(sql);
             if (i > 0)
             {
-                m = DapperHelper.GetList<Model.sys_user_role>("select * from sys_user_role order by id desc LIMIT 1").FirstOrDefault();
+                List<Model.sys_user_role> ls = await DapperHelper.GetList<Model.sys_user_role>("select * from sys_user_role order by id desc LIMIT 1");
+                m = ls.FirstOrDefault();
                 List<Model.sys_user_role> ss = new List<Model.sys_user_role>();
                 ss.Add(m);
                 lst = ss;

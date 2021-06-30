@@ -19,9 +19,9 @@ namespace IOT.ETL.Api.Controllers
         }
         [Route("/api/Adds")]
         [HttpPost]
-        public int Adds(Model.sys_user_role m)
+        public async Task<int> Adds(Model.sys_user_role m)
         {
-            return _sys_user_roleRepository.Add(m);
+            return await _sys_user_roleRepository.Add(m);
         }
 
     }
