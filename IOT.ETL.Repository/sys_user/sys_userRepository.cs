@@ -30,7 +30,7 @@ namespace IOT.ETL.Repository.sys_user
         {
             lst = null;
          //   string sql = "select * from sys_user";
-            string sql = "select a.id,a.name,a.username,c.id roleid,a.phone,a.status from sys_user a join sys_user_role b on a.id=b.user_id join sys_role c on b.role_id=c.id";
+            string sql = "select a.id,a.name,a.username,c.id roleid,a.phone,a.status,a.email from sys_user a join sys_user_role b on a.id=b.user_id join sys_role c on b.role_id=c.id";
             if (lst == null || lst.Count == 0)
             {
                 lst = await DapperHelper.GetList<Model.sys_user>(sql);
